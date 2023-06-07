@@ -9,10 +9,10 @@ import restaurant.models.InventoryItem;
 public class InventoryManagement {
 
     static List<InventoryItem> listOfIngredients = new ArrayList<>();
-    static InventoryManagement inventory = new InventoryManagement();
+
 
     //will add it to the listOfIn if the item is already made
-    public void updateIngredientInventory() {
+    public static void updateIngredientInventory() {
 //      adding more inventory
         Scanner scanner = new Scanner(System.in);
         System.out.println("What is the name of the item to update?");
@@ -38,18 +38,28 @@ public class InventoryManagement {
 
     }
 
+    public static void addInitialIngredient(String itemName, int quantity, int threshold){
+        InventoryItem item = new InventoryItem(itemName, quantity, threshold);
+        listOfIngredients.add(item);
+    }
     //will make the inventory item from the parameter
-    public void addNewIngredient(String itemName, int quantity, int threshold) {
-        for(int i = 0; i < listOfIngredients.size(); i++){
-            if(listOfIngredients.get(i).getItemName().equals(itemName)){
+    public static void addNewIngredient(String itemName, int quantity, int threshold) {
+            boolean ingredientExists = false;
+
+            for (InventoryItem item : listOfIngredients) {
+                if (item.getItemName().equals(itemName)) {
+                    ingredientExists = true;
+                    break;
+                }
+            }
+
+            if (ingredientExists) {
                 System.out.println("Ingredient already exists.");
-            }else{
+            } else {
                 InventoryItem item = new InventoryItem(itemName, quantity, threshold);
                 listOfIngredients.add(item);
             }
         }
-
-    }
 
     public void useIngredient(String ingredientName) {
         listOfIngredients.stream().filter(ingredient -> ingredient.getItemName().equals(ingredientName)).forEach(ingredient -> {
@@ -60,7 +70,7 @@ public class InventoryManagement {
         });
     }
 
-    public void checkInventory() {
+    public static void checkInventory() {
         for (int i = 0; i < listOfIngredients.size(); i++) {
             System.out.println(listOfIngredients.get(i).getItemName() + ": " + listOfIngredients.get(i).getQuantity());
         }
@@ -95,10 +105,10 @@ public class InventoryManagement {
 
             switch (optionSelected) {
                 case 1:
-                    inventory.checkInventory();
+                    checkInventory();
                     break;
                 case 2:
-                    inventory.updateIngredientInventory();
+                    updateIngredientInventory();
                     break;
                 case 3:
                     System.out.println("What is the ingredient you would like to add?");
@@ -110,7 +120,7 @@ public class InventoryManagement {
                     System.out.println("How much of this ingredient should be left at MINIMUM before we order more?");
                     int threshold = Integer.valueOf(scanner.nextLine());
 
-                    inventory.addNewIngredient(itemName, quantity, threshold);
+                    addNewIngredient(itemName, quantity, threshold);
                     break;
 
                 default:
@@ -123,17 +133,19 @@ public class InventoryManagement {
 
     }
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 
-        inventory.addNewIngredient("8oz Coffee Abomination", 50, 5);
-        inventory.addNewIngredient("8oz Oat Milk Latte", 50, 5);
-        inventory.addNewIngredient("8oz Almond Milk Latte", 50, 5);
-        inventory.addNewIngredient("8oz Skim Milk Latte", 50, 3);
-        inventory.addNewIngredient("Oatmeal", 35, 4);
-        inventory.addNewIngredient("Bacon BreakFast Sandwich", 30, 2);
-        inventory.addNewIngredient("Turkey Sandwich", 30, 2);
-        inventory.addNewIngredient("Ham Sandwich", 30, 2);
-
-        manageInventory(inventory);
-    }
+//        addInitialIngredient("8oz Coffee Abomination", 50, 5);
+//        addInitialIngredient("8oz Oat Milk Latte", 50, 5);
+//        addInitialIngredient("8oz Almond Milk Latte", 50, 5);
+//        addInitialIngredient("8oz Skim Milk Latte", 50, 3);
+//        addInitialIngredient("Oatmeal", 35, 4);
+//        addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
+//        addInitialIngredient("Turkey Sandwich", 30, 2);
+//        addInitialIngredient("Ham Sandwich", 30, 2);
+//        System.out.println(listOfIngredients);
+//        addNewIngredient("8oz Almond Milk Latte", 50, 5);
+//        System.out.println(listOfIngredients);
+//
+//    }
 }

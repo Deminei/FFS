@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7710c7e0-aa68-40c5-a239-45ed612de51d" name="Changes" comment="" />
+    <list default="true" id="7710c7e0-aa68-40c5-a239-45ed612de51d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restaurant/controllers/InventoryManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restaurant/controllers/InventoryManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restaurant/controllers/UserLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restaurant/controllers/UserLogin.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,18 +30,21 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/CTAC_Cohort5/FullStack_103/FFS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.InventoryManagement">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="restaurant.App" />
       <module name="FFS" />
@@ -53,6 +60,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.InventoryManagement" />
+        <item itemvalue="Application.UserLogin" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>

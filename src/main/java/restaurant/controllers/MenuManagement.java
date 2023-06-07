@@ -15,19 +15,19 @@ import restaurant.models.MenuItem;
 public class MenuManagement {
     private static final String MENU_FILE_PATH = "./target/menu.csv";
 
-    public static void main(String[] args) {
-
-        MenuItem Coffee = new MenuItem("Coffee Abomination","Delicious tonic water coffee beverage with two shots of espresso",3,8.0, Arrays.asList("1 can of tonic water Cherry syrup 2(oz) shots of espresso"));
-        // Test the addMenuItem method
-        addMenuItem(Coffee);
-        // Print the updated menu
-        List<MenuItem> menuItems = MenuManagement.getMenuItems();
-        System.out.println("Updated Menu:");
-        for (int i = 0; i < menuItems.size(); i++) {
-            MenuItem item = menuItems.get(i);
-            System.out.println(i + 1 + ". " + item.getName() + " - " + item.getDescription() + " - $" + item.getPrice());
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        MenuItem Coffee = new MenuItem("Coffee Abomination","Delicious tonic water coffee beverage with two shots of espresso",3,8.0, Arrays.asList("1 can of tonic water Cherry syrup 2(oz) shots of espresso"));
+//        // Test the addMenuItem method
+//        addMenuItem(Coffee);
+//        // Print the updated menu
+//        List<MenuItem> menuItems = MenuManagement.getMenuItems();
+//        System.out.println("Updated Menu:");
+//        for (int i = 0; i < menuItems.size(); i++) {
+//            MenuItem item = menuItems.get(i);
+//            System.out.println(i + 1 + ". " + item.getName() + " - " + item.getDescription() + " - $" + item.getPrice());
+//        }
+//    }
     public static List<MenuItem> getMenuItems() {
         List<MenuItem> menuItems = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(MENU_FILE_PATH))) {
@@ -155,6 +155,8 @@ public class MenuManagement {
 //       menuData.remove((new String[] {item.getName(), item.getDescription() , String.valueOf(item.getPreparationTime()),String.valueOf(item.getPrice()), item.getIngredients().toString()}));
 //    fileWriter();
 //   }
+
+   
 //   public void edit(MenuItem item){
 //    boolean running = true;
 //    while(running){
@@ -208,6 +210,7 @@ public class MenuManagement {
         // menuData.add(new MenuItem("Bacon BreakFast Sandwich", "Amazing bacon breakFast sandwich with egg, cheese on english muffin",8, 8.00, Arrays.asList("Bacon", "Egg", "Cheese", "English Muffin")));
         // menuData.add(new MenuItem("Turkey Sandwich", "Delicious turkey sandwich with cheese, lettuce on whole wheat",8, 10.00, Arrays.asList("Turkey", "Cheese", "Lettuce", "Whole Wheat")));
         // menuData.add(new MenuItem("Ham Sandwich", "Yummy ham sandwich served with lettuce, mayonnaise, cheese on whole wheat",3, 10.00, Arrays.asList("Ham","Lettuce", "Mayonnaise", "Cheese", "Whole Wheat")));
+
 
     }
 
