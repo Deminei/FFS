@@ -155,6 +155,42 @@ public class MenuManagement {
 //       menuData.remove((new String[] {item.getName(), item.getDescription() , String.valueOf(item.getPreparationTime()),String.valueOf(item.getPrice()), item.getIngredients().toString()}));
 //    fileWriter();
 //   }
+
+   public void edit(MenuItem item){
+    boolean running = true;
+    while(running){
+        int option = prompt("Pick from the list of options below", new String[]{
+            "update the item's name",
+            "update the item's description",
+            "update the item's preparation time",
+            "update the item's price",
+            "Update the item's ingredients"
+    });
+ 
+    switch(option){
+        case 1: 
+        item.setName(prompt("What's the new name?"));
+        break;
+        case 2: item.setDescription(prompt("What would you like the new description to say?"));
+        break;
+        case 3: item.setPreparationTime(Integer.parseInt((prompt("What is the new preparation time?"))));
+        break;
+        case 4: item.setPrice(Double.parseDouble((prompt("What is the new price? EX:0.00"))));
+        break;
+        case 5: item.setIngredients(Arrays.asList(prompt("What are the new ingredients?").split("|")));
+        break;
+        default:
+        System.out.println("Logging out. Goodbye!");
+        running = false;
+        break;
+    }
+    }
+   }
+public int prompt(String question, String[] options){
+    System.out.println(question);
+    for(int i = 0; i < options.length; i++){
+        System.out.println(i + ": " + options[i])
+          
 //   public void edit(MenuItem item){
 //    boolean running = true;
 //    while(running){
@@ -208,6 +244,7 @@ public class MenuManagement {
         // menuData.add(new MenuItem("Bacon BreakFast Sandwich", "Amazing bacon breakFast sandwich with egg, cheese on english muffin",8, 8.00, Arrays.asList("Bacon", "Egg", "Cheese", "English Muffin")));
         // menuData.add(new MenuItem("Turkey Sandwich", "Delicious turkey sandwich with cheese, lettuce on whole wheat",8, 10.00, Arrays.asList("Turkey", "Cheese", "Lettuce", "Whole Wheat")));
         // menuData.add(new MenuItem("Ham Sandwich", "Yummy ham sandwich served with lettuce, mayonnaise, cheese on whole wheat",3, 10.00, Arrays.asList("Ham","Lettuce", "Mayonnaise", "Cheese", "Whole Wheat")));
+
 
     }
 
