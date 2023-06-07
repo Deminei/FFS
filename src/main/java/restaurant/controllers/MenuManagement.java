@@ -56,14 +56,14 @@ public class MenuManagement {
 //        }
 //    }
 
-    public void add(MenuItem item){
-        menuData.add((new String[] {item.getName(), item.getDescription() , String.valueOf(item.getPreparationTime()), Double.toString(item.getPrice()), item.getIngredients().toString()}));
-        fileWriter();
-    }
-   public void delete(MenuItem item){
-       menuData.remove((new String[] {item.getName(), item.getDescription() , String.valueOf(item.getPreparationTime()),String.valueOf(item.getPrice()), item.getIngredients().toString()}));
-    fileWriter();
-   }
+//    public void add(MenuItem item){
+//        menuData.add((new String[] {item.getName(), item.getDescription() , String.valueOf(item.getPreparationTime()), Double.toString(item.getPrice()), item.getIngredients().toString()}));
+//        fileWriter();
+//    }
+//   public void delete(MenuItem item){
+//       menuData.remove((new String[] {item.getName(), item.getDescription() , String.valueOf(item.getPreparationTime()),String.valueOf(item.getPrice()), item.getIngredients().toString()}));
+//    fileWriter();
+//   }
    public void edit(MenuItem item){
     boolean running = true;
     while(running){

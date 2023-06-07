@@ -190,7 +190,7 @@ public class UserLogin {
                     OrderProcessing.placeGuestOrder(new OrderProcessing());
                     break;
                 case 3:
-                    // Restaurant inventory function?
+                    InventoryManagement.manageInventory();
                     break;
                 default:
                     System.out.println("Logging out. Goodbye.");
