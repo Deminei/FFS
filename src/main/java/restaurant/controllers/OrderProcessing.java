@@ -98,12 +98,13 @@ public class OrderProcessing {
         while (running) {
             // Display the menu
             System.out.println("Menu:");
-            // Retrieve the menu items from the MenuManagement class
-            List<String[]> menuItems = MenuManagement.getMenuData();
+            List<MenuItem> menuItems = MenuManagement.getMenuItems();
             for (int i = 0; i < menuItems.size(); i++) {
-                String[] menuItemData = menuItems.get(i);
-                MenuItem item = new MenuItem(menuItemData[0], menuItemData[1], Integer.parseInt(menuItemData[2]), Double.parseDouble(menuItemData[3]), Arrays.asList(menuItemData[4].split(",")).toString());
-                System.out.println(i + 1 + ". " + item.getName() + " - " + item.getDescription() + " - $" + item.getPrice());
+                MenuItem menuItemData = menuItems.get(i);
+                String itemName = menuItemData.getName();
+                String description = menuItemData.getDescription();
+                double price = Double.parseDouble(String.valueOf(menuItemData.getPrice()));
+                System.out.println(i + 1 + ". " + itemName + " - " + description + " - $" + price);
             }
 
             // Prompt the guest to select an item
@@ -116,8 +117,10 @@ public class OrderProcessing {
             } else if (itemNumber < 1 || itemNumber > menuItems.size()) {
                 System.out.println("Invalid item number. Please try again.");
             } else {
-                String[] menuItemData = menuItems.get(itemNumber - 1);
-                MenuItem selectedItem = new MenuItem(menuItemData[0], menuItemData[1], Integer.parseInt(menuItemData[2]), Double.parseDouble(menuItemData[3]), Arrays.asList(menuItemData[4].split(",")).toString());
+                MenuItem menuItemData = menuItems.get(itemNumber);
+                String itemName = menuItemData.getName();
+                String description = menuItemData.getDescription();
+                double price = Double.parseDouble(String.valueOf(menuItemData.getPrice()));
 
                 // Prompt the guest to enter the quantity
                 System.out.println("Enter the quantity:");
@@ -125,15 +128,12 @@ public class OrderProcessing {
                 scanner.nextLine(); // Consume the new line character
 
                 // Create the order item
-                OrderItem orderItem = new OrderItem(selectedItem, quantity);
-
-                // Prompt the guest to enter the order ID
-                System.out.println("Enter the order ID:");
-                int orderId = scanner.nextInt();
-                scanner.nextLine(); // Consume the new line character
+                MenuItem menuItem = new MenuItem(itemName, description, price);
+                OrderItem orderItem = new OrderItem(menuItem, quantity);
 
                 // Create the order
-                Order order = new Order(orderId, List.of(orderItem), orderItem.getTotalPrice(), "Waiting", table);
+                Order order = new Order();
+                order.setItems((List<OrderItem>) orderItem);
 
                 // Process the order
                 orderProcessing.createOrder(order);

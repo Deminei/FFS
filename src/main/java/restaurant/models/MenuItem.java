@@ -4,21 +4,31 @@ import java.util.Collections;
 import java.util.List;
 
 public class MenuItem {
-    private String name;
-    private String description;
-    private int preparationTime;
-    private double price;
-    private List<String> ingredients;
+    private static String name;
+    private static String description;
+    private static int preparationTime;
+    private static double price;
+    private static List<String> ingredients;
 
-    public MenuItem(String name, String description, int preparationTime, double price, String ingredients) {
+    public MenuItem(String name, String description, int preparationTime, double price, List<String> ingredients) {
         this.name = name;
         this.description = description;
         this.preparationTime = preparationTime;
         this.price = price;
-        this.ingredients = Collections.singletonList(ingredients);
+        this.ingredients = ingredients;
     }
 
-    public String getName() {
+    public MenuItem(String itemName, String description, double price) {
+        this.setName(itemName);
+        this.setDescription(description);
+        this.setPrice(price);
+    }
+
+//    public MenuItem(String itemName, String description, double price) {
+//        this.price = price;
+//    }
+
+    public static String getName() {
         return name;
     }
 
@@ -26,15 +36,15 @@ public class MenuItem {
         this.name = name;
     }
 
-    public String getDescription() {
+    public static String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        MenuItem.description = description;
     }
 
-    public int getPreparationTime() {
+    public static int getPreparationTime() {
         return preparationTime;
     }
 
@@ -42,7 +52,7 @@ public class MenuItem {
         this.preparationTime = preparationTime;
     }
 
-    public double getPrice() {
+    public static double getPrice() {
         return price;
     }
 
@@ -50,7 +60,7 @@ public class MenuItem {
         this.price = price;
     }
 
-    public List<String> getIngredients() {
+    public static List<String> getIngredients() {
         return ingredients;
     }
 
