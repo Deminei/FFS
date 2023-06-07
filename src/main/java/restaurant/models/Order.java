@@ -1,5 +1,8 @@
 package restaurant.models;
 
+import restaurant.models.OrderItem;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -18,7 +21,7 @@ public class Order {
     }
 
     public Order() {
-
+        this.items = new ArrayList<>();
     }
 
     public int getOrderId() {
@@ -60,4 +63,13 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void addItem(OrderItem item) {
+        items.add(item);
+    }
+
+    public OrderItem getItem(int index) {
+        return items.get(index);
+    }
 }
+

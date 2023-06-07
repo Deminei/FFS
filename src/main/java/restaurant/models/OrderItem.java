@@ -3,12 +3,12 @@ package restaurant.models;
 public class OrderItem {
     private MenuItem menuItem;
     private int quantity;
-    private double price;
     private double totalPrice;
 
     public OrderItem(MenuItem menuItem, int quantity) {
         this.menuItem = menuItem;
         this.quantity = quantity;
+        this.totalPrice = menuItem.getPrice() * quantity;
     }
 
     public MenuItem getMenuItem() {
@@ -25,14 +25,7 @@ public class OrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+        this.totalPrice = menuItem.getPrice() * quantity;
     }
 
     public double getTotalPrice() {
