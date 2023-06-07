@@ -17,6 +17,10 @@ public class Order {
         this.table = table;
     }
 
+    public Order() {
+
+    }
+
     public int getOrderId() {
         return orderId;
     }
