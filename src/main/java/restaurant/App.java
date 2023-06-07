@@ -2,7 +2,7 @@ package restaurant;
 
 import java.util.*;
 import java.util.Scanner;
-
+import restaurant.models.OrderItem;
 import restaurant.controllers.MenuManagement;
 import restaurant.models.MenuItem;
 
