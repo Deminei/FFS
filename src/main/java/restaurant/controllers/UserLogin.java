@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//import static restaurant.controllers.InventoryManagement.inventory;
+import static restaurant.controllers.InventoryManagement.addInitialIngredient;
+import static restaurant.controllers.InventoryManagement.listOfIngredients;
+
 public class UserLogin {
     public static void main(String[] args) {
         findUser();
@@ -171,12 +175,24 @@ public class UserLogin {
     public static void staffOptions() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
+
         TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
+        InventoryManagement inventory = new InventoryManagement();
+
+        addInitialIngredient("8oz Coffee Abomination", 50, 5);
+        addInitialIngredient("8oz Oat Milk Latte", 50, 5);
+        addInitialIngredient("8oz Almond Milk Latte", 50, 5);
+        addInitialIngredient("8oz Skim Milk Latte", 50, 3);
+        addInitialIngredient("Oatmeal", 35, 4);
+        addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
+        addInitialIngredient("Turkey Sandwich", 30, 2);
+        addInitialIngredient("Ham Sandwich", 30, 2);
+
 
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
             System.out.println("Enter 2 to access to place guest order.");
-            System.out.println("Press 3 to edit restaurant inventory.");
+            System.out.println("Press 3 to check restaurant inventory.");
             System.out.println("Enter 0 to exit.");
 
             int optionSelected = Integer.parseInt(scanner.nextLine());
@@ -191,7 +207,8 @@ public class UserLogin {
                     OrderProcessing.placeGuestOrder();
                     break;
                 case 3:
-                    // Restaurant inventory function?
+                    System.out.println(listOfIngredients);
+                    inventory.checkInventory();
                     break;
                 default:
                     System.out.println("Logging out. Goodbye.");
@@ -205,12 +222,24 @@ public class UserLogin {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
         // Instantiate the TableManager class
+
         TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
+        
+        InventoryManagement inventory = new InventoryManagement();
+
+        addInitialIngredient("8oz Coffee Abomination", 50, 5);
+        addInitialIngredient("8oz Oat Milk Latte", 50, 5);
+        addInitialIngredient("8oz Almond Milk Latte", 50, 5);
+        addInitialIngredient("8oz Skim Milk Latte", 50, 3);
+        addInitialIngredient("Oatmeal", 35, 4);
+        addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
+        addInitialIngredient("Turkey Sandwich", 30, 2);
+        addInitialIngredient("Ham Sandwich", 30, 2);
 
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
             System.out.println("Enter 2 to access to place guest order.");
-            System.out.println("Press 3 to edit restaurant inventory.");
+            System.out.println("Press 3 to manage restaurant inventory.");
             System.out.println("Press 4 to edit the menu.");
             System.out.println("Press 5 to get a sales report.");
             System.out.println("Enter 0 to exit.");
@@ -226,7 +255,8 @@ public class UserLogin {
                     OrderProcessing.placeGuestOrder();
                     break;
                 case 3:
-                    // Restaurant inventory function?
+                    // Restaurant inventory function
+                    InventoryManagement.manageInventory(inventory);
                     break;
                 case 4:
                     // Edit menu function
