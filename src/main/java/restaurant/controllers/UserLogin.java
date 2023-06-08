@@ -1,5 +1,6 @@
 package restaurant.controllers;
 
+import restaurant.models.Table;
 import restaurant.models.User;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -169,13 +170,28 @@ public class UserLogin {
         boolean running = true;
 
 
+
+        TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
+        InventoryManagement inventory = new InventoryManagement();
+
+        addInitialIngredient("8oz Coffee Abomination", 50, 5);
+        addInitialIngredient("8oz Oat Milk Latte", 50, 5);
+        addInitialIngredient("8oz Almond Milk Latte", 50, 5);
+        addInitialIngredient("8oz Skim Milk Latte", 50, 3);
+        addInitialIngredient("Oatmeal", 35, 4);
+        addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
+        addInitialIngredient("Turkey Sandwich", 30, 2);
+        addInitialIngredient("Ham Sandwich", 30, 2);
+
+
+
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
             System.out.println("Enter 2 to access to place guest order.");
             System.out.println("Press 3 to check restaurant inventory.");
             System.out.println("Enter 0 to exit.");
 
-            int optionSelected = Integer.valueOf(scanner.nextLine());
+            int optionSelected = Integer.parseInt(scanner.nextLine());
 
             switch (optionSelected) {
                 case 1:
@@ -183,8 +199,10 @@ public class UserLogin {
                     assignGuestToTable(tableManagement);
                     break;
                 case 2:
+
 //                    // Call Order function
 //                    OrderProcessing.placeGuestOrder(new OrderProcessing());
+
                     break;
                 case 3:
                     InventoryManagement checkInventory = new InventoryManagement();
@@ -202,6 +220,22 @@ public class UserLogin {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
+        // Instantiate the TableManager class
+
+        TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
+        
+        InventoryManagement inventory = new InventoryManagement();
+
+        addInitialIngredient("8oz Coffee Abomination", 50, 5);
+        addInitialIngredient("8oz Oat Milk Latte", 50, 5);
+        addInitialIngredient("8oz Almond Milk Latte", 50, 5);
+        addInitialIngredient("8oz Skim Milk Latte", 50, 3);
+        addInitialIngredient("Oatmeal", 35, 4);
+        addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
+        addInitialIngredient("Turkey Sandwich", 30, 2);
+        addInitialIngredient("Ham Sandwich", 30, 2);
+
+
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
             System.out.println("Enter 2 to access to place guest order.");
@@ -217,8 +251,10 @@ public class UserLogin {
                     assignGuestToTable(tableManagement);
                     break;
                 case 2:
-//                   Call Order function
+
+                 //Call Order function
                     orderProcessing.placeGuestOrder();
+
                     break;
                 case 3:
                     // Restaurant inventory function
@@ -249,3 +285,45 @@ public class UserLogin {
 
     }
 }
+
+        // Get the list of tables
+        List<Table> tables = tableManagement.getTables();
+
+        // Find the available tables for the given party size
+        List<Table> availableTables = new ArrayList<>();
+        for (Table table : tables) {
+            if (table.getStatus() == Table.Status.AVAILABLE && table.getTableSize() >= partySize) {
+                availableTables.add(table);
+            }
+        }
+
+        if (availableTables.isEmpty()) {
+            System.out.println("No available tables for the party size. Please try again later.");
+            return;
+        }
+
+        // Display available tables
+        System.out.println("Available Tables:");
+        for (int i = 0; i < availableTables.size(); i++) {
+            Table table = availableTables.get(i);
+            System.out.println(i + 1 + ". Table ID: " + table.getTableId() + ", Table Size: " + table.getTableSize());
+        }
+
+        // Prompt the guest to select a table
+        System.out.println("Enter the number of the table you want to assign to the party:");
+        int tableNumber = Integer.parseInt(scanner.nextLine());
+
+        if (tableNumber < 1 || tableNumber > availableTables.size()) {
+            System.out.println("Invalid table number. Please try again.");
+            return;
+        }
+
+        // Assign the selected table to the party
+        Table selectedTable = availableTables.get(tableNumber - 1);
+        tableManagement.assignGuestToTable(selectedTable);
+
+        System.out.println("Table assigned successfully. Enjoy your meal!");
+    }
+
+}
+

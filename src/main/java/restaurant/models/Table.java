@@ -4,6 +4,8 @@ public class Table {
     private int tableId;
     private int tableSize;
     private Status status;
+
+
     public enum Status {
         AVAILABLE,
         RESERVED,

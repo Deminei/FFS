@@ -15,12 +15,29 @@ import restaurant.models.MenuItem;
 public class MenuManagement {
     private static final String MENU_FILE_PATH = "./target/menu.csv";
 
+
     public MenuManagement() {
     }
 
     //  Creates an array of menu items from csv
 //  NEEDS WORK DUE TO STUPID LIST
-    public List<MenuItem> getMenuItems() {
+  
+
+//    public static void main(String[] args) {
+//
+//        MenuItem Coffee = new MenuItem("Coffee Abomination","Delicious tonic water coffee beverage with two shots of espresso",3,8.0, Arrays.asList("1 can of tonic water Cherry syrup 2(oz) shots of espresso"));
+//        // Test the addMenuItem method
+//        addMenuItem(Coffee);
+//        // Print the updated menu
+//        List<MenuItem> menuItems = MenuManagement.getMenuItems();
+//        System.out.println("Updated Menu:");
+//        for (int i = 0; i < menuItems.size(); i++) {
+//            MenuItem item = menuItems.get(i);
+//            System.out.println(i + 1 + ". " + item.getName() + " - " + item.getDescription() + " - $" + item.getPrice());
+//        }
+//    }
+    public static List<MenuItem> getMenuItems() {
+
         List<MenuItem> menuItems = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(MENU_FILE_PATH))) {
             List<String[]> menuData = reader.readAll();
