@@ -8,17 +8,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-//import static restaurant.controllers.InventoryManagement.inventory;
-import static restaurant.controllers.InventoryManagement.addInitialIngredient;
-import static restaurant.controllers.InventoryManagement.listOfIngredients;
+import restaurant.controllers.*;
 
 public class UserLogin {
-    public static void main(String[] args) {
-        findUser();
-    }
-
-    public static void findUser() {
+    public void findUser(TableManagement tableManagement, MenuManagement menu, InventoryManagement inventory,OrderProcessing orderProcessing) {
         System.out.println("Enter username: ");
         Scanner scanner = new Scanner(System.in);
         String employeeUserName = scanner.nextLine();
@@ -38,9 +31,9 @@ public class UserLogin {
                     if (validatePassword(employeePassword, storedHashedPassword)) {
                         foundUser = true;
                         if (userData[2].equals("STAFF")) {
-                            staffOptions();
+                            staffOptions(tableManagement, menu, orderProcessing);
                         } else if (userData[2].equals("MANAGER")) {
-                            managerOptions();
+                            managerOptions(tableManagement, menu, inventory, orderProcessing);
                         }
                     }
                     break; // Added to exit the loop after finding a matching user
@@ -56,7 +49,7 @@ public class UserLogin {
         }
     }
 
-    private static boolean validatePassword(String password, String storedHashedPassword) {
+    private boolean validatePassword(String password, String storedHashedPassword) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes(StandardCharsets.UTF_8));
@@ -73,7 +66,7 @@ public class UserLogin {
         }
     }
 
-    public static void storeUserData(User user) {
+    public void storeUserData(User user) {
         String filepath = "src/main/java/restaurant/utils/users.txt";
         List<User> employeeList = new ArrayList<>();
 
@@ -99,7 +92,7 @@ public class UserLogin {
         }
     }
 
-    private static String hashPassword(String password) {
+    private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -115,7 +108,7 @@ public class UserLogin {
         }
     }
 
-    private static void backupUsersFile() {
+    private void backupUsersFile() {
         String sourceFile = "src/main/java/restaurant/utils/users.txt";
         String backupFile = "src/main/java/restaurant/utils/users_backup.txt";
 
@@ -132,7 +125,7 @@ public class UserLogin {
         }
     }
 
-    private static void replacePasswordsWithHashed() {
+    private void replacePasswordsWithHashed() {
         String sourceFile = "src/main/java/restaurant/utils/users.txt";
         String tempFile = "src/main/java/restaurant/utils/users_temp.txt";
 
@@ -171,20 +164,10 @@ public class UserLogin {
         }
     }
 
-    public static void staffOptions() {
+    public void staffOptions(TableManagement tableManagement, MenuManagement menu, OrderProcessing orderProcessing) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-        TableManagement tableManagement = new TableManagement();
-        InventoryManagement inventory = new InventoryManagement();
 
-        addInitialIngredient("8oz Coffee Abomination", 50, 5);
-        addInitialIngredient("8oz Oat Milk Latte", 50, 5);
-        addInitialIngredient("8oz Almond Milk Latte", 50, 5);
-        addInitialIngredient("8oz Skim Milk Latte", 50, 3);
-        addInitialIngredient("Oatmeal", 35, 4);
-        addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
-        addInitialIngredient("Turkey Sandwich", 30, 2);
-        addInitialIngredient("Ham Sandwich", 30, 2);
 
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
@@ -200,12 +183,12 @@ public class UserLogin {
                     assignGuestToTable(tableManagement);
                     break;
                 case 2:
-                    // Call Order function
-                    OrderProcessing.placeGuestOrder(new OrderProcessing());
+//                    // Call Order function
+//                    OrderProcessing.placeGuestOrder(new OrderProcessing());
                     break;
                 case 3:
-                    System.out.println(listOfIngredients);
-                    inventory.checkInventory();
+                    InventoryManagement checkInventory = new InventoryManagement();
+                    checkInventory.checkInventory();
                     break;
                 default:
                     System.out.println("Logging out. Goodbye.");
@@ -215,21 +198,9 @@ public class UserLogin {
         }
     }
 
-    public static void managerOptions() {
+    public void managerOptions(TableManagement tableManagement, MenuManagement menu, InventoryManagement inventory, OrderProcessing orderProcessing) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-        // Instantiate the TableManager class
-        TableManagement tableManagement = new TableManagement();
-        InventoryManagement inventory = new InventoryManagement();
-
-        addInitialIngredient("8oz Coffee Abomination", 50, 5);
-        addInitialIngredient("8oz Oat Milk Latte", 50, 5);
-        addInitialIngredient("8oz Almond Milk Latte", 50, 5);
-        addInitialIngredient("8oz Skim Milk Latte", 50, 3);
-        addInitialIngredient("Oatmeal", 35, 4);
-        addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
-        addInitialIngredient("Turkey Sandwich", 30, 2);
-        addInitialIngredient("Ham Sandwich", 30, 2);
 
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
@@ -246,12 +217,12 @@ public class UserLogin {
                     assignGuestToTable(tableManagement);
                     break;
                 case 2:
-                    // Call Order function
-                    OrderProcessing.placeGuestOrder(new OrderProcessing());
+//                   Call Order function
+                    orderProcessing.placeGuestOrder();
                     break;
                 case 3:
                     // Restaurant inventory function
-                    InventoryManagement.manageInventory(inventory);
+                    inventory.manageInventory(inventory);
                     break;
                 case 4:
                     // Edit menu function
@@ -266,12 +237,15 @@ public class UserLogin {
             }
         }
     }
-    public static void assignGuestToTable(TableManagement tableManagement) {
+
+    public void assignGuestToTable(TableManagement tableManagement) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the party size: ");
         int partySize = Integer.parseInt(scanner.nextLine());
 
         tableManagement.assignGuestToTable(partySize);
+
+
     }
 }

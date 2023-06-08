@@ -145,18 +145,18 @@ public class OrderProcessing {
 
 
 
-    //    private void notifyStaff(Order order) {
-//        List<MenuItem> items = order.getItems();
-//        for (MenuItem item : items) {
-//            List<String> ingredients = item.getIngredients();
-//            for (String ingredient : ingredients) {
-//                InventoryItem inventoryItem = InventoryManagement.getIngredients(ingredient);
-//                if (inventoryItem.getQuantity() <= inventoryItem.getThreshold()) {
-//                    System.out.println("Alert: Low quantity for ingredient " + ingredient);
-//                }
-//            }
-//        }
-//    }
+        private void notifyStaff(Order order) {
+        List<MenuItem> items = order.getItems();
+        for (MenuItem item : items) {
+            List<String> ingredients = item.getIngredients();
+            for (String ingredient : ingredients) {
+                InventoryItem inventoryItem = InventoryManagement.getIngredients(ingredient);
+                if (inventoryItem.getQuantity() <= inventoryItem.getThreshold()) {
+                    System.out.println("Alert: Low quantity for ingredient " + ingredient);
+                }
+            }
+        }
+    }
     private List<Order> getCompletedOrders() {
         List<Order> completedOrders = new ArrayList<>();
         for (Order order : activeOrders) {

@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="7710c7e0-aa68-40c5-a239-45ed612de51d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restaurant/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restaurant/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/restaurant/controllers/InventoryManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restaurant/controllers/InventoryManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restaurant/controllers/MenuManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restaurant/controllers/MenuManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restaurant/controllers/OrderProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restaurant/controllers/OrderProcessing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/restaurant/controllers/UserLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restaurant/controllers/UserLogin.java" afterDir="false" />
     </list>
+    <list id="a47f2fe4-ec1b-4c36-8df1-feaa40f38130" name="Changes by hectorg" comment="" />
+    <list id="7b7f9467-568e-4a0c-8bf8-b8964dc4cf6d" name="Changes by stone" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="CHa_Branch" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,10 +57,10 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.UserLogin">
+  <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="restaurant.App" />
-      <module name="FFS" />
+      <module name="RestaurantManagementSystem" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="restaurant.*" />
@@ -68,6 +73,19 @@
     </configuration>
     <configuration name="InventoryManagement" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="restaurant.controllers.InventoryManagement" />
+      <module name="RestaurantManagementSystem" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="restaurant.controllers.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MenuManagement" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="restaurant.controllers.MenuManagement" />
       <module name="RestaurantManagementSystem" />
       <extension name="coverage">
         <pattern>
@@ -94,9 +112,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.MenuManagement" />
         <item itemvalue="Application.UserLogin" />
         <item itemvalue="Application.InventoryManagement" />
-        <item itemvalue="Application.App" />
+        <item itemvalue="Application.UserLogin" />
       </list>
     </recent_temporary>
   </component>
@@ -110,6 +130,8 @@
       <updated>1686143429127</updated>
       <workItem from="1686143430696" duration="6272000" />
       <workItem from="1686151254630" duration="9356000" />
+      <workItem from="1686238029165" duration="12000" />
+      <workItem from="1686238132314" duration="6126000" />
     </task>
     <servers />
   </component>
@@ -118,5 +140,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
