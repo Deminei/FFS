@@ -15,64 +15,51 @@ import restaurant.models.MenuItem;
 public class MenuManagement {
     private static final String MENU_FILE_PATH = "./target/menu.csv";
 
-
     public MenuManagement() {
     }
 
     //  Creates an array of menu items from csv
-//  NEEDS WORK DUE TO STUPID LIST
-  
-
-//    public static void main(String[] args) {
-//
-//        MenuItem Coffee = new MenuItem("Coffee Abomination","Delicious tonic water coffee beverage with two shots of espresso",3,8.0, Arrays.asList("1 can of tonic water Cherry syrup 2(oz) shots of espresso"));
-//        // Test the addMenuItem method
-//        addMenuItem(Coffee);
-//        // Print the updated menu
-//        List<MenuItem> menuItems = MenuManagement.getMenuItems();
-//        System.out.println("Updated Menu:");
-//        for (int i = 0; i < menuItems.size(); i++) {
-//            MenuItem item = menuItems.get(i);
-//            System.out.println(i + 1 + ". " + item.getName() + " - " + item.getDescription() + " - $" + item.getPrice());
-//        }
-//    }
-    public static List<MenuItem> getMenuItems() {
-
+    public List<MenuItem> getMenuItems() {
         List<MenuItem> menuItems = new ArrayList<>();
-        try (CSVReader reader = new CSVReader(new FileReader(MENU_FILE_PATH))) {
-            List<String[]> menuData = reader.readAll();
-            for (String[] menuItemData : menuData) {
-                MenuItem menuItem = new MenuItem(
-                        menuItemData[0],
-                        menuItemData[1],
-                        Integer.parseInt(menuItemData[2]),
-                        Double.parseDouble(menuItemData[3]),
-                        Collections.singletonList(menuItemData[4])
-                );
 
-//                System.out.println(menuItem);
+        List<String[]> menuData;
+//
+        try (CSVReader reader = new CSVReader(new FileReader(MENU_FILE_PATH))) {
+            menuData = reader.readAll();
+
+            MenuItem menuItem = null;
+
+            for (String[] arrays : menuData) {
+
+                String name = arrays[0];
+                String description = arrays[1];
+                int preptime = Integer.parseInt(arrays[2]);
+                double price = Double.parseDouble(arrays[3]);
+                String ingredients = arrays[4];
+
+                menuItem = new MenuItem(name, description, preptime, price, Collections.singletonList(ingredients));
                 menuItems.add(menuItem);
 
             }
-            System.out.println("MenuData" + menuData);
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CsvException e) {
             throw new RuntimeException(e);
         }
-//        System.out.println(menuItems);
+
+        System.out.println(menuItems);
         return menuItems;
     }
 
     //    Needed to add files to CSV. Could not hard code it due to complex syntax
-    public void addMenuItem(MenuItem item) {
-        try (CSVWriter writer = new CSVWriter(new FileWriter(MENU_FILE_PATH, true))) {
-            writer.writeNext(new String[]{MenuItem.getName(), MenuItem.getDescription(), String.valueOf(MenuItem.getPreparationTime()), String.valueOf(MenuItem.getPrice()), String.valueOf(MenuItem.getIngredients())});
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void addMenuItem(MenuItem item) {
+//        try (CSVWriter writer = new CSVWriter(new FileWriter(MENU_FILE_PATH, true))) {
+//            writer.writeNext(new String[]{MenuItem.getName(), MenuItem.getDescription(), String.valueOf(MenuItem.getPreparationTime()), String.valueOf(MenuItem.getPrice()), String.valueOf(MenuItem.getIngredients())});
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void addNewMenuItem() {
         Scanner scanner = new Scanner(System.in);
@@ -111,18 +98,16 @@ public class MenuManagement {
 
         List<MenuItem> menuItems = this.getMenuItems();
         System.out.println(menuItems);
-//        menuItems.removeIf(menuItem -> menuItem.getName().equals(name));
+        menuItems.removeIf(menuItem -> menuItem.getName().equals(name));
 //        saveMenuItems(menuItems);
 
-//        MenuItem item = new MenuItem(name, "", 0, 0.0, Collections.singletonList(""));
-//        this.removeMenuItem(item);
     }
 
-//    public void removeMenuItem(MenuItem item) {
-//        List<MenuItem> menuItems = this.getMenuItems();
-//        menuItems.removeIf(menuItem -> menuItem.getName().equals(item.getName()));
+    public void removeMenuItem(MenuItem item) {
+        List<MenuItem> menuItems = this.getMenuItems();
+        menuItems.removeIf(menuItem -> menuItem.getName().equals(item.getName()));
 //        saveMenuItems(menuItems);
-//    }
+    }
 
     public void editMenuItem() {
         Scanner scanner = new Scanner(System.in);
