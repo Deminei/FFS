@@ -1,5 +1,6 @@
 package restaurant.controllers;
 
+import restaurant.models.Table;
 import restaurant.models.User;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -8,17 +9,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-//import static restaurant.controllers.InventoryManagement.inventory;
-import static restaurant.controllers.InventoryManagement.addInitialIngredient;
-import static restaurant.controllers.InventoryManagement.listOfIngredients;
+import restaurant.controllers.*;
 
 public class UserLogin {
-    public static void main(String[] args) {
-        findUser();
-    }
-
-    public static void findUser() {
+    public void findUser(TableManagement tableManagement, MenuManagement menu, InventoryManagement inventory,OrderProcessing orderProcessing) {
         System.out.println("Enter username: ");
         Scanner scanner = new Scanner(System.in);
         String employeeUserName = scanner.nextLine();
@@ -38,9 +32,9 @@ public class UserLogin {
                     if (validatePassword(employeePassword, storedHashedPassword)) {
                         foundUser = true;
                         if (userData[2].equals("STAFF")) {
-                            staffOptions();
+                            staffOptions(tableManagement, menu, orderProcessing);
                         } else if (userData[2].equals("MANAGER")) {
-                            managerOptions();
+                            managerOptions(tableManagement, menu, inventory, orderProcessing);
                         }
                     }
                     break; // Added to exit the loop after finding a matching user
@@ -56,7 +50,7 @@ public class UserLogin {
         }
     }
 
-    private static boolean validatePassword(String password, String storedHashedPassword) {
+    private boolean validatePassword(String password, String storedHashedPassword) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes(StandardCharsets.UTF_8));
@@ -73,7 +67,7 @@ public class UserLogin {
         }
     }
 
-    public static void storeUserData(User user) {
+    public void storeUserData(User user) {
         String filepath = "src/main/java/restaurant/utils/users.txt";
         List<User> employeeList = new ArrayList<>();
 
@@ -99,7 +93,7 @@ public class UserLogin {
         }
     }
 
-    private static String hashPassword(String password) {
+    private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -115,7 +109,7 @@ public class UserLogin {
         }
     }
 
-    private static void backupUsersFile() {
+    private void backupUsersFile() {
         String sourceFile = "src/main/java/restaurant/utils/users.txt";
         String backupFile = "src/main/java/restaurant/utils/users_backup.txt";
 
@@ -132,7 +126,7 @@ public class UserLogin {
         }
     }
 
-    private static void replacePasswordsWithHashed() {
+    private void replacePasswordsWithHashed() {
         String sourceFile = "src/main/java/restaurant/utils/users.txt";
         String tempFile = "src/main/java/restaurant/utils/users_temp.txt";
 
@@ -171,10 +165,13 @@ public class UserLogin {
         }
     }
 
-    public static void staffOptions() {
+    public void staffOptions(TableManagement tableManagement, MenuManagement menu, OrderProcessing orderProcessing) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-        TableManagement tableManagement = new TableManagement();
+
+
+
+        TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
         InventoryManagement inventory = new InventoryManagement();
 
         addInitialIngredient("8oz Coffee Abomination", 50, 5);
@@ -186,13 +183,15 @@ public class UserLogin {
         addInitialIngredient("Turkey Sandwich", 30, 2);
         addInitialIngredient("Ham Sandwich", 30, 2);
 
+
+
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
             System.out.println("Enter 2 to access to place guest order.");
             System.out.println("Press 3 to check restaurant inventory.");
             System.out.println("Enter 0 to exit.");
 
-            int optionSelected = Integer.valueOf(scanner.nextLine());
+            int optionSelected = Integer.parseInt(scanner.nextLine());
 
             switch (optionSelected) {
                 case 1:
@@ -200,12 +199,14 @@ public class UserLogin {
                     assignGuestToTable(tableManagement);
                     break;
                 case 2:
-                    // Call Order function
-                    OrderProcessing.placeGuestOrder(new OrderProcessing());
+
+//                    // Call Order function
+//                    OrderProcessing.placeGuestOrder(new OrderProcessing());
+
                     break;
                 case 3:
-                    System.out.println(listOfIngredients);
-                    inventory.checkInventory();
+                    InventoryManagement checkInventory = new InventoryManagement();
+                    checkInventory.checkInventory();
                     break;
                 default:
                     System.out.println("Logging out. Goodbye.");
@@ -215,11 +216,14 @@ public class UserLogin {
         }
     }
 
-    public static void managerOptions() {
+    public void managerOptions(TableManagement tableManagement, MenuManagement menu, InventoryManagement inventory, OrderProcessing orderProcessing) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
+
         // Instantiate the TableManager class
-        TableManagement tableManagement = new TableManagement();
+
+        TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
+        
         InventoryManagement inventory = new InventoryManagement();
 
         addInitialIngredient("8oz Coffee Abomination", 50, 5);
@@ -230,6 +234,7 @@ public class UserLogin {
         addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
         addInitialIngredient("Turkey Sandwich", 30, 2);
         addInitialIngredient("Ham Sandwich", 30, 2);
+
 
         while (running) {
             System.out.println("Enter 1 to assign guest to a table.");
@@ -246,12 +251,14 @@ public class UserLogin {
                     assignGuestToTable(tableManagement);
                     break;
                 case 2:
-                    // Call Order function
-                    OrderProcessing.placeGuestOrder(new OrderProcessing());
+
+                 //Call Order function
+                    orderProcessing.placeGuestOrder();
+
                     break;
                 case 3:
                     // Restaurant inventory function
-                    InventoryManagement.manageInventory(inventory);
+                    inventory.manageInventory(inventory);
                     break;
                 case 4:
                     // Edit menu function
@@ -266,12 +273,57 @@ public class UserLogin {
             }
         }
     }
-    public static void assignGuestToTable(TableManagement tableManagement) {
+
+    public void assignGuestToTable(TableManagement tableManagement) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the party size: ");
         int partySize = Integer.parseInt(scanner.nextLine());
 
         tableManagement.assignGuestToTable(partySize);
+
+
     }
 }
+
+        // Get the list of tables
+        List<Table> tables = tableManagement.getTables();
+
+        // Find the available tables for the given party size
+        List<Table> availableTables = new ArrayList<>();
+        for (Table table : tables) {
+            if (table.getStatus() == Table.Status.AVAILABLE && table.getTableSize() >= partySize) {
+                availableTables.add(table);
+            }
+        }
+
+        if (availableTables.isEmpty()) {
+            System.out.println("No available tables for the party size. Please try again later.");
+            return;
+        }
+
+        // Display available tables
+        System.out.println("Available Tables:");
+        for (int i = 0; i < availableTables.size(); i++) {
+            Table table = availableTables.get(i);
+            System.out.println(i + 1 + ". Table ID: " + table.getTableId() + ", Table Size: " + table.getTableSize());
+        }
+
+        // Prompt the guest to select a table
+        System.out.println("Enter the number of the table you want to assign to the party:");
+        int tableNumber = Integer.parseInt(scanner.nextLine());
+
+        if (tableNumber < 1 || tableNumber > availableTables.size()) {
+            System.out.println("Invalid table number. Please try again.");
+            return;
+        }
+
+        // Assign the selected table to the party
+        Table selectedTable = availableTables.get(tableNumber - 1);
+        tableManagement.assignGuestToTable(selectedTable);
+
+        System.out.println("Table assigned successfully. Enjoy your meal!");
+    }
+
+}
+

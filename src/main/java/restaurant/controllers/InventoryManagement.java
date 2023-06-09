@@ -1,5 +1,5 @@
 package restaurant.controllers;
-import java.sql.SQLOutput;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,11 +8,11 @@ import restaurant.models.InventoryItem;
 
 public class InventoryManagement {
 
-    static List<InventoryItem> listOfIngredients = new ArrayList<>();
+    List<InventoryItem> listOfIngredients = new ArrayList<>();
 
 
     //will add it to the listOfIn if the item is already made
-    public static void updateIngredientInventory() {
+    public void updateIngredientInventory() {
 //      adding more inventory
         Scanner scanner = new Scanner(System.in);
         System.out.println("What is the name of the item to update?");
@@ -21,13 +21,10 @@ public class InventoryManagement {
         System.out.println("How many units of this item would you like to add?");
         int unitsToAdd = scanner.nextInt();
         scanner.nextLine();
-        System.out.println(unitsToAdd);
 
-        for(int i = 0; i < listOfIngredients.size(); i++){
-            System.out.println(listOfIngredients.get(i).getItemName().equals(itemName));
-            if(listOfIngredients.get(i).getItemName().equals(itemName)){
-                    listOfIngredients.get(i).setQuantity(listOfIngredients.get(i).getQuantity() + unitsToAdd);
-                System.out.println(listOfIngredients.get(i).getQuantity());
+        for (InventoryItem listOfIngredient : listOfIngredients) {
+            if (listOfIngredient.getItemName().equals(itemName)) {
+                listOfIngredient.setQuantity(listOfIngredient.getQuantity() + unitsToAdd);
             }
         }
 //WHY WON'T YOU MATH???
@@ -38,12 +35,12 @@ public class InventoryManagement {
 
     }
 
-    public static void addInitialIngredient(String itemName, int quantity, int threshold){
+    public void addInitialIngredient(String itemName, int quantity, int threshold){
         InventoryItem item = new InventoryItem(itemName, quantity, threshold);
         listOfIngredients.add(item);
     }
     //will make the inventory item from the parameter
-    public static void addNewIngredient(String itemName, int quantity, int threshold) {
+    public void addNewIngredient(String itemName, int quantity, int threshold) {
             boolean ingredientExists = false;
 
             for (InventoryItem item : listOfIngredients) {
@@ -70,7 +67,7 @@ public class InventoryManagement {
         });
     }
 
-    public static void checkInventory() {
+    public void checkInventory() {
         for (int i = 0; i < listOfIngredients.size(); i++) {
             System.out.println(listOfIngredients.get(i).getItemName() + ": " + listOfIngredients.get(i).getQuantity());
         }
@@ -90,7 +87,7 @@ public class InventoryManagement {
         }
     }
 
-    public static void manageInventory(InventoryManagement inventoryManagement) {
+    public void manageInventory(InventoryManagement inventoryManagement) {
         System.out.println("What would you like to do with the inventory?");
         Scanner scanner = new Scanner(System.in);
         boolean running = true;

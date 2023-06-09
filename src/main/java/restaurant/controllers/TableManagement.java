@@ -1,111 +1,105 @@
 package restaurant.controllers;
 
 import restaurant.models.Table;
-
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class TableManagement {
-    private List<Table> tables;
+    public static OrderProcessing orderProcessing;
+    public List<Table> tables;
+    public static File file;
 
-    public TableManagement() {
+    public TableManagement(String filepath) {
         tables = new ArrayList<>();
+        file = new File(filepath);
+        loadTables();
     }
 
+    // Add a new table to the list
     public void addTable(Table table) {
         tables.add(table);
+        saveTables();
     }
 
-    public void removeTable(Table table) {
-        tables.remove(table);
+    private void loadTables() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] tableData = line.split(",");
+                int tableId = Integer.parseInt(tableData[0]);
+                int tableSize = Integer.parseInt(tableData[1]);
+                Table.Status status = Table.Status.valueOf(tableData[2]);
+                Table table = new Table(tableId, tableSize, status);
+                tables.add(table);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args) {
+        TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
+
+
+
+        // Load the tables from the file
+        tableManagement.loadTables();
+
+
+        // Display the tables
+        List<Table> tables = tableManagement.getTables();
+        for (Table table : tables) {
+            System.out.println(table);
+        }
+    }
+    
+
+
+    private void saveTables() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (Table table : tables) {
+                String line = table.getTableId() + "," + table.getTableSize() + "," + table.getStatus();
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Table> getTables() {
         return tables;
     }
 
-    public List<Table> getAvailableTables(int partySize) {
-        List<Table> availableTables = new ArrayList<>();
-        for (Table table : tables) {
-            if (table.getStatus() == Table.Status.AVAILABLE && table.getTableSize() >= partySize) {
-                availableTables.add(table);
+    public void editTable(Table table) {
+        // Find the table with the same table number and update its properties
+        for (int i = 0; i < tables.size(); i++) {
+            Table existingTable = tables.get(i);
+            if (existingTable.getTableId() == table.getTableId()) {
+                existingTable.setTableSize(table.getTableSize());
+                existingTable.setStatus(String.valueOf(table.getStatus()));
+                break;
             }
         }
-        return availableTables;
+
+        saveTables();
     }
 
-    public void assignGuestToTable(int partySize) {
-        Table table1 = new Table(1, 4, Table.Status.AVAILABLE); // Create a table with ID 1 and size 4
-        Table table2 = new Table(2, 6, Table.Status.AVAILABLE); // Create a table with ID 2 and size 6
-        Table table3 = new Table(3,2, Table.Status.AVAILABLE);
-
-        tables.add(table1); // Add table1 to the tables list
-        tables.add(table2); // Add table2 to the tables list
-        tables.add(table3);
-        Scanner scanner = new Scanner(System.in);
-
-        List<Table> availableTables = getAvailableTables(partySize);
-
-        if (availableTables.isEmpty()) {
-            System.out.println("No available tables for the given party size.");
-        } else {
-            System.out.println("Available Tables:");
-            for (Table table : availableTables) {
-                System.out.println("Table " + table.getTableId() + ": seats: " + table.getTableSize());
-            }
-
-            System.out.println("Enter the table ID to assign the guest: ");
-            int tableId = Integer.parseInt(scanner.nextLine());
-
-            Table selectedTable = null;
-            for (Table table : availableTables) {
-                if (table.getTableId() == tableId) {
-                    selectedTable = table;
-                    break;
-                }
-            }
-
-            if (selectedTable != null) {
-                assignTableToCustomer(selectedTable, Table.Status.OCCUPIED);
-                System.out.println("Guests assigned to Table " + tableId);
-            } else {
-                System.out.println("Invalid table ID.");
+    public void assignGuestToTable(Table table) {
+        // Find the table with the given table ID and set its status to OCCUPIED
+        for (Table existingTable : tables) {
+            if (existingTable.getTableId() == table.getTableId()) {
+                existingTable.setStatus(String.valueOf(Table.Status.OCCUPIED));
+                break;
             }
         }
+
+        saveTables();
     }
 
-    public void assignTableToCustomer(Table table, Table.Status status) {
-        table.setStatus(String.valueOf(status));
-    }
 
-    public void freeTable(Table table) {
-        table.setStatus(String.valueOf(Table.Status.AVAILABLE));
-    }
 
-    public static void main(String[] args) {
-        // Example usage
-        TableManagement tableManagement = new TableManagement();
-
-        // Create tables
-        Table table1 = new Table(1, 4, Table.Status.AVAILABLE);
-        Table table2 = new Table(2, 6, Table.Status.RESERVED);
-        Table table3 = new Table(3, 2, Table.Status.OCCUPIED);
-
-        // Add tables to management
-        tableManagement.addTable(table1);
-        tableManagement.addTable(table2);
-        tableManagement.addTable(table3);
-
-        // Get available tables for a party size
-        List<Table> availableTables = tableManagement.getAvailableTables(4);
-        System.out.println("Available tables for party size 4: " + availableTables);
-
-        // Free a table
-        tableManagement.freeTable(table1);
-
-        // Get all tables
-        List<Table> allTables = tableManagement.getTables();
-        System.out.println("All tables: " + allTables);
-    }
 }
+
+

@@ -15,6 +15,14 @@ import restaurant.models.MenuItem;
 public class MenuManagement {
     private static final String MENU_FILE_PATH = "./target/menu.csv";
 
+
+    public MenuManagement() {
+    }
+
+    //  Creates an array of menu items from csv
+//  NEEDS WORK DUE TO STUPID LIST
+  
+
 //    public static void main(String[] args) {
 //
 //        MenuItem Coffee = new MenuItem("Coffee Abomination","Delicious tonic water coffee beverage with two shots of espresso",3,8.0, Arrays.asList("1 can of tonic water Cherry syrup 2(oz) shots of espresso"));
@@ -29,6 +37,7 @@ public class MenuManagement {
 //        }
 //    }
     public static List<MenuItem> getMenuItems() {
+
         List<MenuItem> menuItems = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(MENU_FILE_PATH))) {
             List<String[]> menuData = reader.readAll();
@@ -40,16 +49,24 @@ public class MenuManagement {
                         Double.parseDouble(menuItemData[3]),
                         Collections.singletonList(menuItemData[4])
                 );
+
+//                System.out.println(menuItem);
                 menuItems.add(menuItem);
+
             }
+            System.out.println("MenuData" + menuData);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CsvException e) {
             throw new RuntimeException(e);
         }
+//        System.out.println(menuItems);
         return menuItems;
     }
-    public static void addMenuItem(MenuItem coffee) {
+
+    //    Needed to add files to CSV. Could not hard code it due to complex syntax
+    public void addMenuItem(MenuItem item) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(MENU_FILE_PATH, true))) {
             writer.writeNext(new String[]{MenuItem.getName(), MenuItem.getDescription(), String.valueOf(MenuItem.getPreparationTime()), String.valueOf(MenuItem.getPrice()), String.valueOf(MenuItem.getIngredients())});
         } catch (IOException e) {
@@ -57,71 +74,160 @@ public class MenuManagement {
         }
     }
 
-    public static void removeMenuItem() {
+    public void addNewMenuItem() {
+        Scanner scanner = new Scanner(System.in);
+//        String name, String description, int preparationTime, double price, List<String> ingredients
+        System.out.println("Enter the name of the new menu item:");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter the description of the new menu item:");
+        String description = scanner.nextLine();
+
+        System.out.println("Enter the preparation time (in minutes) of the new menu item:");
+        int preparationTime = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Enter the price of the new menu item:");
+        double price = Double.parseDouble(scanner.nextLine());
+
+        System.out.println("Enter the ingredients of the new menu item (separated by commas):");
+        String ingredients = scanner.nextLine();
+
+        MenuItem item = new MenuItem(name, description, preparationTime, price, Collections.singletonList(ingredients));
+
+        try (CSVWriter writer = new CSVWriter(new FileWriter(MENU_FILE_PATH, true))) {
+            writer.writeNext(new String[]{item.getName(), item.getDescription(), String.valueOf(item.getPreparationTime()), String.valueOf(item.getPrice()), String.valueOf(item.getIngredients())});
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //    NEEDS WORK DUE TO STUPID LIST
+    public void removeMenuItem() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the name of the menu item to remove:");
         String name = scanner.nextLine();
 
-        MenuItem item = new MenuItem(name, "", 0, 0.0, Collections.singletonList(""));
-        removeMenuItem(item);
+        List<MenuItem> menuItems = this.getMenuItems();
+        System.out.println(menuItems);
+//        menuItems.removeIf(menuItem -> menuItem.getName().equals(name));
+//        saveMenuItems(menuItems);
+
+//        MenuItem item = new MenuItem(name, "", 0, 0.0, Collections.singletonList(""));
+//        this.removeMenuItem(item);
     }
 
-    public static void removeMenuItem(MenuItem item) {
-        List<MenuItem> menuItems = getMenuItems();
-        menuItems.removeIf(menuItem -> menuItem.getName().equals(item.getName()));
-        saveMenuItems(menuItems);
-    }
+//    public void removeMenuItem(MenuItem item) {
+//        List<MenuItem> menuItems = this.getMenuItems();
+//        menuItems.removeIf(menuItem -> menuItem.getName().equals(item.getName()));
+//        saveMenuItems(menuItems);
+//    }
 
-    public static void editMenuItem() {
+    public void editMenuItem() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the name of the menu item to edit:");
+        System.out.println("Which menu item would you like to edit?");
         String name = scanner.nextLine();
 
-        System.out.println("Enter the new name of the menu item:");
-        String newName = scanner.nextLine();
-
-        System.out.println("Enter the new description of the menu item:");
-        String newDescription = scanner.nextLine();
-
-        System.out.println("Enter the new preparation time (in minutes) of the menu item:");
-        int newPreparationTime = Integer.parseInt(scanner.nextLine());
-
-        System.out.println("Enter the new price of the menu item:");
-        double newPrice = Double.parseDouble(scanner.nextLine());
-
-        System.out.println("Enter the new ingredients of the menu item (separated by commas):");
-        String newIngredients = scanner.nextLine();
-
-        MenuItem newItem = new MenuItem(newName, newDescription, newPreparationTime, newPrice, Collections.singletonList(newIngredients));
-        MenuItem item = new MenuItem(name, "", 0, 0.0, Collections.singletonList(""));
-        editMenuItem(item, newItem);
-    }
-    public static void editMenuItem(MenuItem item, MenuItem newItem) {
-        List<MenuItem> menuItems = getMenuItems();
+        List<MenuItem> menuItems = this.getMenuItems();
         for (MenuItem menuItem : menuItems) {
-            if (menuItem.getName().equals(item.getName())) {
-                menuItem.setName(newItem.getName());
-                menuItem.setDescription(newItem.getDescription());
-                menuItem.setPreparationTime(newItem.getPreparationTime());
-                menuItem.setPrice(newItem.getPrice());
-                menuItem.setIngredients(newItem.getIngredients());
-                break;
+            if (menuItem.getName().equals(name)) {
+
+                boolean running = true;
+
+                while (running) {
+                    System.out.println("Enter 1 to edit item name.");
+                    System.out.println("Enter 2 to edit item description.");
+                    System.out.println("Press 3 to edit item preparation time.");
+                    System.out.println("Press 4 to edit item price.");
+                    System.out.println("Press 5 to edit item ingredients.");
+                    System.out.println("Enter 0 to exit.");
+
+                    int optionSelected = Integer.valueOf(scanner.nextLine());
+
+                    switch (optionSelected) {
+                        case 1:
+                            System.out.println("Enter the new name of the item. ");
+                            String newName = scanner.nextLine();
+                            menuItem.setName(newName);
+                            break;
+                        case 2:
+                            System.out.println("Enter the new description of the item. ");
+                            String newDescription = scanner.nextLine();
+                            menuItem.setDescription(newDescription);
+                            break;
+                        case 3:
+                            System.out.println("Enter the new preparation time of the item. ");
+                            int newPrepTime = Integer.valueOf(scanner.nextLine());
+                            menuItem.setPreparationTime(newPrepTime);
+                            break;
+                        case 4:
+                            System.out.println("Enter the new price of the item. ");
+                            double newPrice = Double.valueOf(scanner.nextLine());
+                            menuItem.setPrice(newPrice);
+                            break;
+                        case 5:
+                            System.out.println("Enter the new ingredients of the menu item (separated by commas):");
+                            String newIngredients = scanner.nextLine();
+                            menuItem.setIngredients(Collections.singletonList(newIngredients));
+                            break;
+                        default:
+                            System.out.println("Logging out. Goodbye.");
+                            running = false;
+                            break;
+                    }
+                }
             }
         }
-        saveMenuItems(menuItems);
     }
 
-    private static void saveMenuItems(List<MenuItem> menuItems) {
-        try (CSVWriter writer = new CSVWriter(new FileWriter(MENU_FILE_PATH))) {
-            for (MenuItem menuItem : menuItems) {
-                writer.writeNext(new String[]{menuItem.getName(), menuItem.getDescription(), String.valueOf(menuItem.getPreparationTime()), String.valueOf(menuItem.getPrice()), menuItem.getIngredients().toString()});
+        private void saveMenuItems(){
+            List<MenuItem> menuItems = this.getMenuItems();
+
+            try (CSVWriter writer = new CSVWriter(new FileWriter(MENU_FILE_PATH))) {
+                for (MenuItem menuItem : menuItems) {
+                    writer.writeNext(new String[]{menuItem.getName(), menuItem.getDescription(), String.valueOf(menuItem.getPreparationTime()), String.valueOf(menuItem.getPrice()), menuItem.getIngredients().toString()});
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+    public void manageMenu(){
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("What would you like to do with the menu?");
+            System.out.println("Enter 1 to view the menu.");
+            System.out.println("Enter 2 to add an item.");
+            System.out.println("Press 3 to remove an item.");
+            System.out.println("Press 4 to edit an item.");
+            System.out.println("Enter 0 to exit.");
+
+            int optionSelected = Integer.valueOf(scanner.nextLine());
+
+            switch (optionSelected) {
+                case 1:
+                    getMenuItems();
+                    break;
+                case 2:
+                    addNewMenuItem();
+                    break;
+                case 3:
+                    removeMenuItem();
+                    break;
+                case 4:
+                    editMenuItem();
+                    break;
+                default:
+                    System.out.println("Leaving menu management. Goodbye.");
+                    running = false;
+                    break;
+            }
         }
     }
+<<<<<<< HEAD
 //    private static File file = new File("./menutestcsv.csv");
 //
 //
@@ -210,7 +316,10 @@ public class MenuManagement {
         // menuData.add(new MenuItem("Bacon BreakFast Sandwich", "Amazing bacon breakFast sandwich with egg, cheese on english muffin",8, 8.00, Arrays.asList("Bacon", "Egg", "Cheese", "English Muffin")));
         // menuData.add(new MenuItem("Turkey Sandwich", "Delicious turkey sandwich with cheese, lettuce on whole wheat",8, 10.00, Arrays.asList("Turkey", "Cheese", "Lettuce", "Whole Wheat")));
         // menuData.add(new MenuItem("Ham Sandwich", "Yummy ham sandwich served with lettuce, mayonnaise, cheese on whole wheat",3, 10.00, Arrays.asList("Ham","Lettuce", "Mayonnaise", "Cheese", "Whole Wheat")));
+=======
+}
+
+>>>>>>> e5f20096d1dbaee62725d225feadb6bcb66beb7d
 
 
-    }
 

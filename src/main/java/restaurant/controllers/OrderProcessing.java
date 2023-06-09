@@ -1,16 +1,20 @@
 package restaurant.controllers;
 import restaurant.models.*;
-
+import java.util.Scanner;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class OrderProcessing {
     private static Table table;
+    private static Scanner scanner;
+    private static OrderProcessing orderProcessing;
     private final List<Order> activeOrders;
     private Map<Integer, String> orderStatus;
     private ExecutorService executorService;
     private InventoryManagement inventoryManagement;
+    public static TableManagement tableManagement;
 //    private SalesReport salesReport;
 
     public OrderProcessing() {
@@ -18,9 +22,10 @@ public class OrderProcessing {
         orderStatus = new HashMap<>();
         executorService = Executors.newFixedThreadPool(5); // Set the number of threads as desired
         inventoryManagement = new InventoryManagement();
-        Table TableManagement = table;
+        tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
 //        salesReport = new SalesReport();
     }
+
     public void createOrder(Order order) {
         activeOrders.add(order);
         orderStatus.put(order.getOrderId(), "Waiting");
@@ -28,6 +33,7 @@ public class OrderProcessing {
         // Process the order asynchronously
         executorService.submit(() -> processOrder(order));
     }
+
     private void processOrder(Order order) {
         // Simulate order processing time
         try {
@@ -60,25 +66,29 @@ public class OrderProcessing {
         updateInventory(order);
 //        notifyStaff(order);
     }
+
     public void updateOrderStatus(int orderId, String newStatus) {
         String put = orderStatus.put(orderId, newStatus);
     }
+
     public double calculateTotalPrice(int orderId) {
         for (Order order : activeOrders) {
             if (order.getOrderId() == orderId) {
                 double totalPrice = 0.0;
                 for (OrderItem item : order.getItems()) {
-                    totalPrice += item.getPrice();
+                    totalPrice += item.getTotalPrice();
                 }
                 return totalPrice;
             }
         }
         return 0.0; // Order not found
     }
+
     private void generateSalesReport() {
         List<Order> completedOrders = getCompletedOrders();
         SalesReport.generateDailySalesReport(completedOrders);
     }
+
     private void updateInventory(Order order) {
         // Implement the logic to update the inventory based on the items in the order
         List<OrderItem> items = order.getItems();
@@ -86,14 +96,27 @@ public class OrderProcessing {
             inventoryManagement.useIngredient(item.getMenuItem().getName());
         }
     }
+
     private List<Table> getTables() {
         // Implement this method to retrieve the list of tables from TableManagement
-        TableManagement tableManagement = new TableManagement();
+        TableManagement tableManagement = new TableManagement("C:/Users/wowin/WIN_Program/FS103/FFS/src/main/java/restaurant/utils/tables.txt");
         return tableManagement.getTables();
     }
-    public static void placeGuestOrder(OrderProcessing orderProcessing) {
+
+    public static void placeGuestOrder() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
+        Order order = new Order();
+
+        // Select an occupied table
+        Table assignedTable = selectOccupiedTable();
+        if (assignedTable == Table.Status.AVAILABLE) {
+            System.out.println("No occupied tables available. Please try again later.");
+            return; // Exit the method if no occupied tables are available
+        }
+
+        // Assign the table to the order
+        order.setTable(assignedTable);
 
         while (running) {
             // Display the menu
@@ -103,24 +126,24 @@ public class OrderProcessing {
                 MenuItem menuItemData = menuItems.get(i);
                 String itemName = menuItemData.getName();
                 String description = menuItemData.getDescription();
-                double price = Double.parseDouble(String.valueOf(menuItemData.getPrice()));
+                double price = menuItemData.getPrice();
                 System.out.println(i + 1 + ". " + itemName + " - " + description + " - $" + price);
             }
 
             // Prompt the guest to select an item
-            System.out.println("Enter the number of the item you want to order (or 0 to finish ordering):");
+            System.out.println("Enter the number of the item you want to order (or 9 to finish ordering):");
             int itemNumber = scanner.nextInt();
             scanner.nextLine(); // Consume the new line character
 
-            if (itemNumber == 0) {
+            if (itemNumber == 9) {
                 running = false;
-            } else if (itemNumber < 1 || itemNumber > menuItems.size()) {
+            } else if (itemNumber < 0 || itemNumber > menuItems.size()) {
                 System.out.println("Invalid item number. Please try again.");
             } else {
-                MenuItem menuItemData = menuItems.get(itemNumber);
+                MenuItem menuItemData = menuItems.get(itemNumber - 1);
                 String itemName = menuItemData.getName();
                 String description = menuItemData.getDescription();
-                double price = Double.parseDouble(String.valueOf(menuItemData.getPrice()));
+                double price = menuItemData.getPrice();
 
                 // Prompt the guest to enter the quantity
                 System.out.println("Enter the quantity:");
@@ -131,32 +154,79 @@ public class OrderProcessing {
                 MenuItem menuItem = new MenuItem(itemName, description, price);
                 OrderItem orderItem = new OrderItem(menuItem, quantity);
 
-                // Create the order
-                Order order = new Order();
-                order.setItems((List<OrderItem>) orderItem);
+                // Add the order item to the order
+                order.addItem(orderItem);
 
-                // Process the order
-                orderProcessing.createOrder(order);
-
-                System.out.println("Order placed successfully.");
+                System.out.println("Item added to the order.");
             }
         }
+
+        // Process the order
+        orderProcessing.createOrder(order);
+        System.out.println("Order placed successfully.");
+
+        // Display the order contents
+        System.out.println("Order details:");
+        List<OrderItem> orderItems = order.getItems();
+        for (int i = 0; i < orderItems.size(); i++) {
+            OrderItem orderItem = orderItems.get(i);
+            MenuItem menuItem = orderItem.getMenuItem();
+            int quantity = orderItem.getQuantity();
+            double totalPrice = orderItem.getTotalPrice();
+
+            System.out.println(i + 1 + ". " + menuItem.getName() + " - Quantity: " + quantity + " - Total Price: $" + totalPrice);
+        }
+    }
+
+    private static Table selectOccupiedTable() {
+        List<Table> tables = tableManagement.getTables();
+
+        // Filter tables to get only occupied tables
+        List<Table> occupiedTables = tables.stream()
+                .filter(table -> table.getStatus() == Table.Status.OCCUPIED)
+                .collect(Collectors.toList());
+
+        if (occupiedTables.isEmpty()) {
+            return null;
+        }
+
+        // Display occupied tables
+        System.out.println("Occupied Tables:");
+        for (int i = 0; i < occupiedTables.size(); i++) {
+            Table table = occupiedTables.get(i);
+            System.out.println(i + 1 + ". Table ID: " + table.getTableId() + ", Table Size: " + table.getTableSize());
+        }
+
+        // Prompt the guest to select a table
+        System.out.println("Enter the number of the table you want to assign to the order:");
+        int tableNumber = scanner.nextInt();
+        scanner.nextLine(); // Consume the new line character
+
+        if (tableNumber < 1 || tableNumber > occupiedTables.size()) {
+            System.out.println("Invalid table number. Please try again.");
+            return null;
+        }
+
+        return occupiedTables.get(tableNumber - 1);
     }
 
 
 
-    //    private void notifyStaff(Order order) {
-//        List<MenuItem> items = order.getItems();
-//        for (MenuItem item : items) {
-//            List<String> ingredients = item.getIngredients();
-//            for (String ingredient : ingredients) {
-//                InventoryItem inventoryItem = InventoryManagement.getIngredients(ingredient);
-//                if (inventoryItem.getQuantity() <= inventoryItem.getThreshold()) {
-//                    System.out.println("Alert: Low quantity for ingredient " + ingredient);
-//                }
-//            }
-//        }
-//    }
+
+
+
+        private void notifyStaff(Order order) {
+        List<MenuItem> items = order.getItems();
+        for (MenuItem item : items) {
+            List<String> ingredients = item.getIngredients();
+            for (String ingredient : ingredients) {
+                InventoryItem inventoryItem = InventoryManagement.getIngredients(ingredient);
+                if (inventoryItem.getQuantity() <= inventoryItem.getThreshold()) {
+                    System.out.println("Alert: Low quantity for ingredient " + ingredient);
+                }
+            }
+        }
+    }
     private List<Order> getCompletedOrders() {
         List<Order> completedOrders = new ArrayList<>();
         for (Order order : activeOrders) {
