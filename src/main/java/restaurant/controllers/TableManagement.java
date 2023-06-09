@@ -23,7 +23,7 @@ public class TableManagement{
     public void checkTables() {
         for (Table table : tables) {
             System.out.println("Table " + table.getTableId() + ": " + table.getTableSize() + "seats " + "Status: " + table.getStatus());
-            System.out.println(tables);
+//            System.out.println(tables);
 
         }
     }

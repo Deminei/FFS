@@ -182,7 +182,7 @@ public class UserLogin {
                     break;
                 case 2:
 //                    // Call Order function
-//                    orderProcessing.placeGuestOrder(menu, table, inventory);
+                    orderProcessing.placingOrder(tableManagement, menu, inventory);
                     break;
                 case 3:
                     inventory.checkInventory();
@@ -215,7 +215,7 @@ public class UserLogin {
                     break;
                 case 2:
 //                   Call Order function
-//                    orderProcessing.placeGuestOrder();
+                    orderProcessing.placingOrder(tableManagement, menu, inventory);
                     break;
                 case 3:
                     // Restaurant inventory function

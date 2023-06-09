@@ -19,17 +19,20 @@ public class App {
 //        SalesReport report = new SalesReport();
 
 
-        orderProcessing.placingOrder(table, menu, inventory);
+
 
 //        Runs findUser function that calls all other functions
 //        userLogin.findUser(table, menu, inventory, orderProcessing);
 
 //        Populate list of tables
-        table.addTableToRestaurant(1,4, AVAILABLE);
+        table.addTableToRestaurant(1,4, OCCUPIED);
         table.addTableToRestaurant(2,6, AVAILABLE);
         table.addTableToRestaurant(3,2, AVAILABLE);
         table.addTableToRestaurant(4,4, AVAILABLE);
-//
+
+
+        orderProcessing.placingOrder(table, menu, inventory);
+
 //        table.assignGuestToTable();
 //        table.checkTables();
 
@@ -42,7 +45,7 @@ public class App {
 //        menu.addMenuItem(new MenuItem("Turkey Sandwich", "Delicious turkey sandwich with cheese, lettuce on whole wheat",8, 10.00, Arrays.asList("Turkey", "Cheese", "Lettuce", "Whole Wheat")));
 //        menu.addMenuItem(new MenuItem("Ham Sandwich", "Yummy ham sandwich served with lettuce, mayonnaise, cheese on whole wheat",3, 10.00, Arrays.asList("Ham","Lettuce", "Mayonnaise", "Cheese", "Whole Wheat")));
 
-////        Adds ingredients to inventory
+//        Adds ingredients to inventory
 //        inventory.addInitialIngredient("Espresso ", 100, 20);
 //        inventory.addInitialIngredient("Cherry syrup(1 )", 100, 20);
 //        inventory.addInitialIngredient("Tonic water", 100, 20);
@@ -63,6 +66,7 @@ public class App {
 //        inventory.manageInventory(inventory);
 
 //          EVERYTHING BELOW THIS WORKS
+
 //        menu.manageMenu();
 //        menu.addNewMenuItem();
 //        menu.removeMenuItem();

@@ -27,65 +27,130 @@ public class OrderProcessing{
        Scanner scanner = new Scanner(System.in);
        int orderID = totalOrders.size();
 
-       boolean running = true;
-        Order newOrder = new Order();
+
+        Order newOrder;
 
         // Select an occupied table
        tableManagement.checkTables();
        System.out.println("Enter the ID of the table where this order will be going: ");
-       int possibleTableID = Integer.parseInt(scanner.nextLine());
+       int tableID = Integer.parseInt(scanner.nextLine());
+
+
 
        for (Table table : tableManagement.tables){
-           if(table.getTableId() == possibleTableID && Table.Status.valueOf(table.getStatus().toString()).equals("OCCUPIED")){
-               int tableID = possibleTableID;
-           } else{
-               System.out.println("Check inputs. Table may not exist or is currently unoccupied.");
+           if(table.getTableId() == tableID){
+               boolean running = true;
+               while (running) {
+                   // Display the menu
+                   System.out.println("Menu:");
+                   menu.displayMenuItems();
+
+//           Prompt the guest to select an item
+                   System.out.println("Enter the number corresponding to the item you want to order (or 0 to finish ordering):");
+                   int itemNumber = Integer.parseInt(scanner.nextLine());
+//                   int itemNumber = 1;
+
+                   if (itemNumber == 0) {
+                       running = false;
+                   } else if (itemNumber < 0 || itemNumber > menu.getMenuItems().size()) {
+                       System.out.println("Invalid item number. Please try again.");
+                   } else {
+                       MenuItem menuItemData = menu.getMenuItems().get(itemNumber - 1);
+                       String itemName = menuItemData.getName();
+                       String description = menuItemData.getDescription();
+                       double price = menuItemData.getPrice();
+
+                       // Prompt the guest to enter the quantity
+                       System.out.println("Enter the quantity:");
+                       int quantity = Integer.parseInt(scanner.nextLine());
+//                       int quantity = 1;
+
+                       ArrayList<MenuItem> itemsToAdd = new ArrayList<>();
+//              Create the list of items to order
+                       for (MenuItem item : menu.getMenuItems()) {
+                           if (item.getName().equals(itemName)) {
+                               itemsToAdd.add(item);
+                               System.out.println("Item added to the order.");
+                           }
+                       }
+                       System.out.println("Order" + orderID + ": " + itemsToAdd);
+
+
+                       double totalPrice = 0;
+
+                       for (MenuItem item : itemsToAdd) {
+                           totalPrice += item.getPrice() * quantity;
+                       }
+
+                       newOrder = new Order(orderID, itemsToAdd, totalPrice, "WAITING", tableID);
+                       totalOrders.add(newOrder);
+                       System.out.println("Order total?: " + newOrder.getItems() + " " + newOrder.getTotalPrice());
+                   }
+               }
+           }
+       }
+       scanner = new Scanner(System.in);
+       System.out.println("What is the order number of the order to process?");
+
+       int orderNumber = Integer.valueOf(scanner.nextLine());// ಥ‿ಥ
+
+       for(Order order : totalOrders){
+           if(order.getOrderId() == orderNumber){
+               executorService.submit(() -> processOrder(order, inventory, menu));
            }
        }
 
-
-       while (running) {
-           // Display the menu
-           System.out.println("Menu:");
-           menu.displayMenuItems();
-
-//           Prompt the guest to select an item
-           System.out.println("Enter the number corresponding to the item you want to order (or 0 to finish ordering):");
-           int itemNumber = Integer.parseInt(scanner.nextLine());
-
-           if (itemNumber == 0) {
-               running = false;
-           } else if (itemNumber < 0 || itemNumber > menu.getMenuItems().size()) {
-               System.out.println("Invalid item number. Please try again.");
-           } else {
-               MenuItem menuItemData = menu.getMenuItems().get(itemNumber - 1);
-               String itemName = menuItemData.getName();
-               String description = menuItemData.getDescription();
-               double price = menuItemData.getPrice();
-
-               // Prompt the guest to enter the quantity
-               System.out.println("Enter the quantity:");
-               int quantity = Integer.parseInt(scanner.nextLine());
-
-                ArrayList<MenuItem> itemsToAdd = new ArrayList<>();
-//              Create the list of items to order
-                for(MenuItem item : menu.getMenuItems()){
-                    if (item.getName().equals(itemName)){
-                        itemsToAdd.add(item);
-                    }
-                }
-               System.out.println("Item added to the order.");
-
-//                OrderItem newOrderItem = new OrderItem(itemToOrder.)
-//                Order newOrder = new Order(orderID, itemToOrder,)
-
-
-            }
-        }
-
-   //executorService.submit(() -> processOrder(order));
    }
+
+    private void processOrder(Order order, InventoryManagement inventory, MenuManagement menu) {
+
+        try {
+            Thread.sleep(2000); // Sleep for 2 seconds to simulate processing time
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Order processing interrupted.");
+            return;
+        }
+        // Update order status
+        order.setStatus("PREPARING");
+//        ordersInWaiting.remove(order);
+//        ordersInPrep.add(order);
+//        updateOrderStatus(order.getOrderId(), "Preparing order.");
+
+        // Perform other order processing tasks
+        // such as updating inventory, notifying staff, generating reports
+        try {
+            Thread.sleep(5000);// Sleep for 5 seconds to simulate processing time.
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Kitchen is having a strike!");
+            return;
+        }
+        // Update order status to "Ready" when processing is complete
+        order.setStatus("COMPLETE");// (っ˘ڡ˘ς)
+//        ordersInPrep.remove(order);
+//        ordersComplete.add(order);
+//        updateOrderStatus(order.getOrderId(), "Order is ready!");
+
+        // Additional tasks after order processing is complete
+//        generateSalesReport();
+
+//      [8oz Coffee Abomination","Delicious tonic water, coffee beverage with a shot of espresso","3","8.0","[[Tonic water, Cherry syrup, Espresso]]]"
+
+        for (MenuItem item : order.getItems()) {
+            item.getIngredients();
+            for (int i = 0; i < item.getIngredients().size(); i++){
+                inventory.useIngredient();
+            }
+
+
+//            inventory.useIngredient(item.getName());
+        }
+//        notifyStaff(order);
+    }
 }
+
+
 
 
 //public class OrderProcessing {

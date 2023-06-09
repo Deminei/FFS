@@ -17,33 +17,25 @@ public class MenuManagement {
     private List<MenuItem> menuItems;
 
     public MenuManagement() {
-        menuItems = new ArrayList<>();
+        menuItems = loadMenuItems();
     }
 
     //  Creates an array of menu items from csv
-    public List<MenuItem> getMenuItems() {
+    private List<MenuItem> loadMenuItems() {
+        List<MenuItem> menuItems = new ArrayList<>();
 
-
-        List<String[]> menuData;
-//
         try (CSVReader reader = new CSVReader(new FileReader(MENU_FILE_PATH))) {
-            menuData = reader.readAll();
-
-//            MenuItem menuItem = null;
+            List<String[]> menuData = reader.readAll();
 
             for (String[] arrays : menuData) {
-
                 String name = arrays[0];
                 String description = arrays[1];
                 int preptime = Integer.parseInt(arrays[2]);
                 double price = Double.parseDouble(arrays[3]);
                 String ingredients = arrays[4];
 
-//                menuItem = new MenuItem(name, description, preptime, price, Collections.singletonList(ingredients));
-//                menuItems.add(menuItem);
                 MenuItem menuItem = new MenuItem(name, description, preptime, price, Collections.singletonList(ingredients));
                 menuItems.add(menuItem);
-
             }
 
         } catch (IOException e) {
@@ -52,18 +44,15 @@ public class MenuManagement {
             throw new RuntimeException(e);
         }
 
-//        for (int i = 0; i < menuItems.size(); i++) {
-//                MenuItem menuItemData = menuItems.get(i);
-//                String itemName = menuItemData.getName();
-//                String description = menuItemData.getDescription();
-//                double price = menuItemData.getPrice();
-//                System.out.println(i + 1 + ". " + itemName + " - " + description + " - $" + price);
-//            }
         return menuItems;
     }
 
-    public void displayMenuItems(){
-        getMenuItems();
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void displayMenuItems() {
+        List<MenuItem> menuItems = getMenuItems();
         for (int i = 0; i < menuItems.size(); i++) {
             MenuItem menuItemData = menuItems.get(i);
             String itemName = menuItemData.getName();
@@ -72,6 +61,7 @@ public class MenuManagement {
             System.out.println(i + 1 + ". " + itemName + " - " + description + " - $" + price);
         }
     }
+
 
     //    Needed to add files to CSV. Could not hard code it due to complex syntax
     public void addMenuItem(MenuItem item) {
