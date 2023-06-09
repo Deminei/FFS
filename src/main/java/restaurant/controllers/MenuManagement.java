@@ -12,6 +12,7 @@ import restaurant.models.MenuItem;
 
 
 public class MenuManagement {
+
     private static final String MENU_FILE_PATH = "./menutestcsv.csv";
     private List<MenuItem> menuItems;
 
@@ -20,11 +21,13 @@ public class MenuManagement {
     }
 
     //  Creates an array of menu items from csv
+
     private List<MenuItem> loadMenuItems() {
         List<MenuItem> menuItems = new ArrayList<>();
 
         try (CSVReader reader = new CSVReader(new FileReader(MENU_FILE_PATH))) {
             List<String[]> menuData = reader.readAll();
+
 
             for (String[] arrays : menuData) {
                 String name = arrays[0];
@@ -43,10 +46,12 @@ public class MenuManagement {
             throw new RuntimeException(e);
         }
 
+
         return menuItems;
     }
 
     public List<MenuItem> getMenuItems() {
+
         return menuItems;
     }
 
@@ -63,6 +68,7 @@ public class MenuManagement {
 
 
     //    Needed to add files to CSV. Could not hard code it due to complex syntax
+
     public void addMenuItem(MenuItem item) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(MENU_FILE_PATH, true))) {
             writer.writeNext(new String[]{item.getName(), item.getDescription(), String.valueOf(item.getPreparationTime()), String.valueOf(item.getPrice()), String.valueOf(item.getIngredients())});
@@ -70,6 +76,7 @@ public class MenuManagement {
             e.printStackTrace();
         }
     }
+
 
     public void addNewMenuItem() {
         Scanner scanner = new Scanner(System.in);
@@ -118,11 +125,11 @@ public class MenuManagement {
 
     }
 
-//    public void removeMenuItem(MenuItem item) {
-//        List<MenuItem> menuItems = this.getMenuItems();
-//        menuItems.removeIf(menuItem -> menuItem.getName().equals(item.getName()));
+    public void removeMenuItem(MenuItem item) {
+        List<MenuItem> menuItems = this.getMenuItems();
+        menuItems.removeIf(menuItem -> menuItem.getName().equals(item.getName()));
 //        saveMenuItems(menuItems);
-//    }
+    }
 
     public void editMenuItem() {
         Scanner scanner = new Scanner(System.in);
