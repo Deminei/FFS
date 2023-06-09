@@ -36,7 +36,7 @@ public class SalesReport {
         return decimalFormat.format(value);
     }
 
-    public static void generateDailySalesReport(List<Order> completedOrders) {
+    public void generateDailySalesReport(List<Order> completedOrders) {
     }
 
     public void generateDailySalesReport() {

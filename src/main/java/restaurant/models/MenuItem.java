@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class MenuItem {
-    private static String name;
-    private static String description;
-    private static int preparationTime;
-    private static double price;
-    private static List<String> ingredients;
+    private String name;
+    private  String description;
+    private int preparationTime;
+    private double price;
+    private List<String> ingredients;
 
     public MenuItem(String name, String description, int preparationTime, double price, List<String> ingredients) {
         this.name = name;
@@ -28,23 +28,23 @@ public class MenuItem {
 //        this.price = price;
 //    }
 
-    public static String getName() {
-        return name;
+    public String getName() {
+        return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public static String getDescription() {
+    public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
-        MenuItem.description = description;
+        this.description = description;
     }
 
-    public static int getPreparationTime() {
+    public int getPreparationTime() {
         return preparationTime;
     }
 
@@ -52,7 +52,7 @@ public class MenuItem {
         this.preparationTime = preparationTime;
     }
 
-    public static double getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -60,7 +60,7 @@ public class MenuItem {
         this.price = price;
     }
 
-    public static List<String> getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 

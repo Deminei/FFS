@@ -1,27 +1,17 @@
 package restaurant;
 
-import java.util.*;
-import java.util.Scanner;
-
-
 import restaurant.controllers.*;
+import restaurant.models.*;
+import java.util.Arrays;
 
-import restaurant.models.OrderItem;
-import restaurant.controllers.MenuManagement;
-
-import restaurant.models.MenuItem;
-
-import restaurant.utils.ConsoleColors;//This file is located in utils
-
-import static restaurant.controllers.MenuManagement.*;
-
+import static restaurant.models.Table.Status.*;
 
 public class App {
 
     //We can handle the 'view' here (◑‿◐)
     public static void main(String[] args) {
 //      Instantiates Control classes
-        TableManagement tableManagement = new TableManagement();
+        TableManagement table = new TableManagement();
         InventoryManagement inventory = new InventoryManagement();
         MenuManagement menu = new MenuManagement();
         OrderProcessing orderProcessing = new OrderProcessing();
@@ -29,8 +19,19 @@ public class App {
 //        SalesReport report = new SalesReport();
 
 
+        orderProcessing.placingOrder(table, menu, inventory);
+
 //        Runs findUser function that calls all other functions
-        userLogin.findUser(tableManagement, menu, inventory, orderProcessing);
+//        userLogin.findUser(table, menu, inventory, orderProcessing);
+
+//        Populate list of tables
+        table.addTableToRestaurant(1,4, AVAILABLE);
+        table.addTableToRestaurant(2,6, AVAILABLE);
+        table.addTableToRestaurant(3,2, AVAILABLE);
+        table.addTableToRestaurant(4,4, AVAILABLE);
+//
+//        table.assignGuestToTable();
+//        table.checkTables();
 
 //        Populates Menu
 //        menu.addMenuItem(new MenuItem("8oz Coffee Abomination", "Delicious tonic water, coffee beverage with a shot of espresso",3, 8.00, Arrays.asList("Tonic water", "Cherry syrup", "Espresso")));
@@ -42,7 +43,10 @@ public class App {
 //        menu.addMenuItem(new MenuItem("Ham Sandwich", "Yummy ham sandwich served with lettuce, mayonnaise, cheese on whole wheat",3, 10.00, Arrays.asList("Ham","Lettuce", "Mayonnaise", "Cheese", "Whole Wheat")));
 
 ////        Adds ingredients to inventory
-//        inventory.addInitialIngredient("8oz Coffee Abomination", 50, 5);
+//        inventory.addInitialIngredient("Espresso ", 100, 20);
+//        inventory.addInitialIngredient("Cherry syrup(1 )", 100, 20);
+//        inventory.addInitialIngredient("Tonic water", 100, 20);
+
 //        inventory.addInitialIngredient("8oz Oat Milk Latte", 50, 5);
 //        inventory.addInitialIngredient("8oz Almond Milk Latte", 50, 5);
 //        inventory.addInitialIngredient("8oz Skim Milk Latte", 50, 3);
@@ -57,8 +61,16 @@ public class App {
 
 //        Testing individual functions
 //        inventory.manageInventory(inventory);
+
+//          EVERYTHING BELOW THIS WORKS
+//        menu.manageMenu();
 //        menu.addNewMenuItem();
 //        menu.removeMenuItem();
+//        menu.editMenuItem();
+//        menu.getMenuItems();
+
+        //TABLE-MANAGEMENT works
+//        table.editTable();
 
     }
 

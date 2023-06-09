@@ -27,11 +27,6 @@ public class InventoryManagement {
                 listOfIngredient.setQuantity(listOfIngredient.getQuantity() + unitsToAdd);
             }
         }
-//WHY WON'T YOU MATH???
-//        listOfIngredients.stream().filter(ingredient -> ingredient.getItemName().equals(itemName).forEach(ingredient -> {
-//            System.out.println(ingredient.getQuantity() + unitsToAdd);
-
-//        });
 
     }
 
@@ -41,22 +36,22 @@ public class InventoryManagement {
     }
     //will make the inventory item from the parameter
     public void addNewIngredient(String itemName, int quantity, int threshold) {
-            boolean ingredientExists = false;
+        boolean ingredientExists = false;
 
-            for (InventoryItem item : listOfIngredients) {
-                if (item.getItemName().equals(itemName)) {
-                    ingredientExists = true;
-                    break;
-                }
-            }
-
-            if (ingredientExists) {
-                System.out.println("Ingredient already exists.");
-            } else {
-                InventoryItem item = new InventoryItem(itemName, quantity, threshold);
-                listOfIngredients.add(item);
+        for (InventoryItem item : listOfIngredients) {
+            if (item.getItemName().equals(itemName)) {
+                ingredientExists = true;
+                break;
             }
         }
+
+        if (ingredientExists) {
+            System.out.println("Ingredient already exists.");
+        } else {
+            InventoryItem item = new InventoryItem(itemName, quantity, threshold);
+            listOfIngredients.add(item);
+        }
+    }
 
     public void useIngredient(String ingredientName) {
         listOfIngredients.stream().filter(ingredient -> ingredient.getItemName().equals(ingredientName)).forEach(ingredient -> {
@@ -68,8 +63,8 @@ public class InventoryManagement {
     }
 
     public void checkInventory() {
-        for (int i = 0; i < listOfIngredients.size(); i++) {
-            System.out.println(listOfIngredients.get(i).getItemName() + ": " + listOfIngredients.get(i).getQuantity());
+        for (InventoryItem listOfIngredient : listOfIngredients) {
+            System.out.println(listOfIngredient.getItemName() + ": " + listOfIngredient.getQuantity());
         }
     }
 
@@ -87,7 +82,7 @@ public class InventoryManagement {
         }
     }
 
-    public void manageInventory(InventoryManagement inventoryManagement) {
+    public void manageInventory() {
         System.out.println("What would you like to do with the inventory?");
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -98,7 +93,7 @@ public class InventoryManagement {
             System.out.println("Enter 3 to add new item.");
             System.out.println("Enter 0 to exit.");
 
-            int optionSelected = Integer.valueOf(scanner.nextLine());
+            int optionSelected = Integer.parseInt(scanner.nextLine());
 
             switch (optionSelected) {
                 case 1:
@@ -112,10 +107,10 @@ public class InventoryManagement {
                     String itemName = scanner.nextLine();
 
                     System.out.println("How much of this ingredient is there?");
-                    int quantity = Integer.valueOf(scanner.nextLine());
+                    int quantity = Integer.parseInt(scanner.nextLine());
 
                     System.out.println("How much of this ingredient should be left at MINIMUM before we order more?");
-                    int threshold = Integer.valueOf(scanner.nextLine());
+                    int threshold = Integer.parseInt(scanner.nextLine());
 
                     addNewIngredient(itemName, quantity, threshold);
                     break;
