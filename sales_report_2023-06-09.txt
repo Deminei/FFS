@@ -1,0 +1,4 @@
+Sales Report - Date: 2023-06-09
+Total Revenue: $270.0
+Most Popular Items: [Ham Sandwich, Turkey Sandwich, Bacon BreakFast Sandwich]
+Tables with Most Orders: [1, 2]
