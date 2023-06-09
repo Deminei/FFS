@@ -145,7 +145,8 @@ public class OrderProcessing{
 
 
 //            inventory.useIngredient(item.getName());
-        }
+    }
+//        inventory.checkInventory();
 //        notifyStaff(order);
     }
 }

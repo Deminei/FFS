@@ -17,6 +17,7 @@ public class App {
         OrderProcessing orderProcessing = new OrderProcessing();
         UserLogin userLogin = new UserLogin();
 //        SalesReport report = new SalesReport();
+//        Sales sales = new Sales();
 
 
 
@@ -25,13 +26,13 @@ public class App {
 //        userLogin.findUser(table, menu, inventory, orderProcessing);
 
 //        Populate list of tables
-        table.addTableToRestaurant(1,4, OCCUPIED);
-        table.addTableToRestaurant(2,6, AVAILABLE);
-        table.addTableToRestaurant(3,2, AVAILABLE);
-        table.addTableToRestaurant(4,4, AVAILABLE);
+        tableManagement.addTableToRestaurant(1,4, OCCUPIED);
+        tableManagement.addTableToRestaurant(2,6, AVAILABLE);
+        tableManagement.addTableToRestaurant(3,2, AVAILABLE);
+        tableManagement.addTableToRestaurant(4,4, AVAILABLE);
 
 
-        orderProcessing.placingOrder(table, menu, inventory);
+
 
 //        table.assignGuestToTable();
 //        table.checkTables();

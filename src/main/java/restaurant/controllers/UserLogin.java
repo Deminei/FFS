@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 
 public class UserLogin {
-    public void findUser(TableManagement tableManagement, Table table, MenuManagement menu, InventoryManagement inventory,OrderProcessing orderProcessing) {
+    public void findUser(TableManagement tableManagement, MenuManagement menu, InventoryManagement inventory,OrderProcessing orderProcessing) {
         System.out.println("Enter username: ");
         Scanner scanner = new Scanner(System.in);
         String employeeUserName = scanner.nextLine();
@@ -31,9 +31,9 @@ public class UserLogin {
                     if (validatePassword(employeePassword, storedHashedPassword)) {
                         foundUser = true;
                         if (userData[2].equals("STAFF")) {
-                            staffOptions(tableManagement, table, orderProcessing, inventory, menu);
+                            staffOptions(tableManagement, orderProcessing, inventory, menu);
                         } else if (userData[2].equals("MANAGER")) {
-                            managerOptions(tableManagement, table, menu, inventory, orderProcessing);
+                            managerOptions(tableManagement, menu, inventory, orderProcessing);
                         }
                     }
                     break; // Added to exit the loop after finding a matching user
@@ -162,7 +162,7 @@ public class UserLogin {
 //        }
 //    }
 
-    public void staffOptions(TableManagement tableManagement, Table table, OrderProcessing orderProcessing, InventoryManagement inventory, MenuManagement menu) {
+    public void staffOptions(TableManagement tableManagement, OrderProcessing orderProcessing, InventoryManagement inventory, MenuManagement menu) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -194,8 +194,8 @@ public class UserLogin {
             }
         }
     }
-
-    public void managerOptions(TableManagement tableManagement, Table table, MenuManagement menu, InventoryManagement inventory, OrderProcessing orderProcessing) {
+//, SalesReport report
+    public void managerOptions(TableManagement tableManagement,  MenuManagement menu, InventoryManagement inventory, OrderProcessing orderProcessing) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -227,6 +227,7 @@ public class UserLogin {
                     break;
                 case 5:
                     // Generate sales report
+               //     report.exportSalesReport();
                     break;
                 default:
                     System.out.println("Logging out. Goodbye.");

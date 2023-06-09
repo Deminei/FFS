@@ -53,22 +53,20 @@ public class InventoryManagement {
         }
     }
 
-    public void useIngredient() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("What is the name of the ingredient used?");
-        String itemName = scanner.nextLine();
+    public void useIngredient(String itemName) {
 
-//        System.out.println("How many units of this item is used?");
-//        int unitsUsed = scanner.nextInt();
-//        scanner.nextLine();
-
-        listOfIngredients.stream().filter(ingredient -> ingredient.getItemName().equals(itemName)).forEach(ingredient -> {
-            ingredient.setQuantity(ingredient.getQuantity() - 1);
-            if (ingredient.getQuantity() <= ingredient.getThreshold()) {
-                System.out.println("Alert--- Only " + ingredient.getQuantity() + " left in inventory");
+        for (InventoryItem ingredient : listOfIngredients) {
+            if (ingredient.getItemName().equals(itemName)) {
+                ingredient.setQuantity(ingredient.getQuantity() - 1);
+                System.out.println(ingredient.getQuantity());
+                if (ingredient.getQuantity() <= ingredient.getThreshold()) {
+                    System.out.println("Alert--- Only " + ingredient.getQuantity() + " left in inventory");
+                }
+                break; // Exit the loop after finding and updating the ingredient
             }
-        });
+        }
     }
+
 
     public void checkInventory() {
         for (InventoryItem listOfIngredient : listOfIngredients) {
