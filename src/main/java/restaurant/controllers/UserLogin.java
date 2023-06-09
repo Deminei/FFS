@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+// , SalesReport report
 public class UserLogin {
     public void findUser(TableManagement tableManagement, MenuManagement menu, InventoryManagement inventory,OrderProcessing orderProcessing) {
         System.out.println("Enter username: ");

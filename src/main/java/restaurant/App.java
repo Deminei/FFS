@@ -11,7 +11,7 @@ public class App {
     //We can handle the 'view' here (◑‿◐)
     public static void main(String[] args) {
 //      Instantiates Control classes
-        TableManagement table = new TableManagement();
+        TableManagement tableManagement = new TableManagement();
         InventoryManagement inventory = new InventoryManagement();
         MenuManagement menu = new MenuManagement();
         OrderProcessing orderProcessing = new OrderProcessing();
