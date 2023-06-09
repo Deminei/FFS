@@ -39,7 +39,6 @@ class TableManagementTest {
 
     }
 
-
     @org.junit.jupiter.api.Test
     void testTableCountAfterAdditionsOfMultipleTables() {
         // Arrange

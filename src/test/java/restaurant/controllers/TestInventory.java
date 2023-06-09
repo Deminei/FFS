@@ -10,7 +10,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList; // Import ArrayList class from java.util
-
 class InventoryTest {
 
     private InventoryManagement inventoryManagement;
