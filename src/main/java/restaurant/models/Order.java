@@ -7,17 +7,17 @@ import java.util.List;
 
 public class Order {
     private int orderId;
-    private List<OrderItem> items;
+    private List<MenuItem> items;
     private double totalPrice;
     private String status;
-    private Table table;
+    private int tableID;
 
-    public Order(int orderId, List<OrderItem> items, double totalPrice, String status, Table table) {
+    public Order(int orderId, List<MenuItem> items, double totalPrice, String status, int tableID) {
         this.orderId = orderId;
         this.items = items;
         this.totalPrice = totalPrice;
         this.status = status;
-        this.table = table;
+        this.tableID = tableID;
     }
 
     public Order() {
@@ -28,23 +28,23 @@ public class Order {
         return orderId;
     }
 
-    public Table getTable() {
-        return table;
+    public int getTable() {
+        return tableID;
     }
 
     public void setTable(Table table) {
-        this.table = table;
+        this.tableID = tableID;
     }
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public List<OrderItem> getItems() {
+    public List<MenuItem> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
+    public void setItems(List<MenuItem> items) {
         this.items = items;
     }
 
@@ -64,11 +64,11 @@ public class Order {
         this.status = status;
     }
 
-    public void addItem(OrderItem item) {
+    public void addItem(MenuItem item) {
         items.add(item);
     }
 
-    public OrderItem getItem(int index) {
+    public MenuItem getItem(int index) {
         return items.get(index);
     }
 }

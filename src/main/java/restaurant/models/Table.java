@@ -6,6 +6,7 @@ public class Table {
     private Status status;
 
 
+
     public enum Status {
         AVAILABLE,
         RESERVED,

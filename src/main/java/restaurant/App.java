@@ -1,20 +1,10 @@
 package restaurant;
 
-import java.util.*;
-import java.util.Scanner;
-
-
 import restaurant.controllers.*;
+import restaurant.models.*;
+import java.util.Arrays;
 
-import restaurant.models.OrderItem;
-import restaurant.controllers.MenuManagement;
-
-import restaurant.models.MenuItem;
-
-import restaurant.utils.ConsoleColors;//This file is located in utils
-
-import static restaurant.controllers.MenuManagement.*;
-
+import static restaurant.models.Table.Status.*;
 
 public class App {
 
@@ -27,10 +17,25 @@ public class App {
         OrderProcessing orderProcessing = new OrderProcessing();
         UserLogin userLogin = new UserLogin();
 //        SalesReport report = new SalesReport();
+//        Sales sales = new Sales();
+
+
 
 
 //        Runs findUser function that calls all other functions
-        userLogin.findUser(tableManagement, menu, inventory, orderProcessing);
+//        userLogin.findUser(table, menu, inventory, orderProcessing);
+
+//        Populate list of tables
+        tableManagement.addTableToRestaurant(1,4, OCCUPIED);
+        tableManagement.addTableToRestaurant(2,6, AVAILABLE);
+        tableManagement.addTableToRestaurant(3,2, AVAILABLE);
+        tableManagement.addTableToRestaurant(4,4, AVAILABLE);
+
+
+
+
+//        table.assignGuestToTable();
+//        table.checkTables();
 
 //        Populates Menu
 //        menu.addMenuItem(new MenuItem("8oz Coffee Abomination", "Delicious tonic water, coffee beverage with a shot of espresso",3, 8.00, Arrays.asList("Tonic water", "Cherry syrup", "Espresso")));
@@ -41,24 +46,46 @@ public class App {
 //        menu.addMenuItem(new MenuItem("Turkey Sandwich", "Delicious turkey sandwich with cheese, lettuce on whole wheat",8, 10.00, Arrays.asList("Turkey", "Cheese", "Lettuce", "Whole Wheat")));
 //        menu.addMenuItem(new MenuItem("Ham Sandwich", "Yummy ham sandwich served with lettuce, mayonnaise, cheese on whole wheat",3, 10.00, Arrays.asList("Ham","Lettuce", "Mayonnaise", "Cheese", "Whole Wheat")));
 
-////        Adds ingredients to inventory
-//        inventory.addInitialIngredient("8oz Coffee Abomination", 50, 5);
-//        inventory.addInitialIngredient("8oz Oat Milk Latte", 50, 5);
-//        inventory.addInitialIngredient("8oz Almond Milk Latte", 50, 5);
-//        inventory.addInitialIngredient("8oz Skim Milk Latte", 50, 3);
-//        inventory.addInitialIngredient("Oatmeal", 35, 4);
-//        inventory.addInitialIngredient("Bacon BreakFast Sandwich", 30, 2);
-//        inventory.addInitialIngredient("Turkey Sandwich", 30, 2);
-//        inventory.addInitialIngredient("Ham Sandwich", 30, 2);
+//        Adds ingredients to inventory
+//        inventory.addNewIngredient("Espresso ", 100, 20);
+//        inventory.addNewIngredient("Cherry syrup ", 50, 20);
+//        inventory.addNewIngredient("Tonic water", 50, 20);
+//        inventory.addNewIngredient("8oz Oat Milk", 50, 5);
+//        inventory.addNewIngredient("8oz Almond Milk", 50, 5);
+//        inventory.addNewIngredient("8oz Skim Milk", 50, 3);
+//        inventory.addNewIngredient("Oatmeal Package", 55, 8);
+//        inventory.addNewIngredient("Bacon", 50, 25);
+//        inventory.addNewIngredient("Turkey", 30, 10);
+//        inventory.addNewIngredient("Ham", 30, 10);
+//        inventory.addNewIngredient("Blueberry Package", 30, 4);
+//        inventory.addNewIngredient("Honey Package", 30, 4);
+//        inventory.addNewIngredient("Brown Sugar Package", 30, 4);
+//        inventory.addNewIngredient("Egg", 144, 12);
+//        inventory.addNewIngredient("Cheese", 60, 10);
+//        inventory.addNewIngredient("English Muffin", 30, 5);
+//        inventory.addNewIngredient("Whole Wheat", 50, 10);
+//        inventory.addNewIngredient("Lettuce", 30, 5);
+//        inventory.addNewIngredient("Mayonnaise", 30, 2);
+        userLogin.findUser(tableManagement, menu, inventory, orderProcessing);
 
+//        orderProcessing.placingOrder(table, menu, inventory);
 //        Adds tables to List<Table>
 //        tableManagement.addTable();
 
 
 //        Testing individual functions
 //        inventory.manageInventory(inventory);
+
+//          EVERYTHING BELOW THIS WORKS
+
+//        menu.manageMenu();
 //        menu.addNewMenuItem();
 //        menu.removeMenuItem();
+//        menu.editMenuItem();
+//        menu.getMenuItems();
+
+        //TABLE-MANAGEMENT works
+//        table.editTable();
 
     }
 
